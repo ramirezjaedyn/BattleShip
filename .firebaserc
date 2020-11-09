@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "midland-battleship": {
+      "hosting": {
+        "battleship": [
+          "midland-battleship"
+        ]
+      }
+    }
+  }
+}
