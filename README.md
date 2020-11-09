@@ -1,27 +1,16 @@
 # Battleship
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.6.
+# Rules
+* Each player has 2 10x10 boards in front of them, one for their ships and one for the enemies space.
+* Starting off they have to place 4 ships of different sizes vertically or horizontally on your board
+    * Destroyer - 2x1 ship
+    * Submarine - 3x1 ship
+    * Battleship - 4x1
+    * Carrier - 5x1 ship
+ * Players then take turns trying to guess where the enemy ship is. They either hit or miss
+ * When one player's ships have been hit on all of their spaces, the opposing player wins
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+# Features
+* User authentication to allow for multiple games / invites
+* Chat functionality for users
+* Feedback for hits/misses and when a ship is sunk
