@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { auth } from 'firebase/app';
+import firebase from 'firebase/app';
 
 
 @Component({
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   }
   
   login() {
-    this.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(v=> {
-      this.router.navigate(["/projects"])
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(v=> {
+      this.router.navigate(['game/:gameId'])
     });
   }
   logout() {
