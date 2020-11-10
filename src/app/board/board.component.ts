@@ -21,8 +21,6 @@ export class BoardComponent implements OnInit {
     {name: "carrier", length: 5},
   ];
 
-  constructor(private gameService: GameService, private auth: AngularFireAuth) { }
-
 
   objectKeys = Object.keys;
   boardStatus: Board = 
@@ -36,9 +34,13 @@ export class BoardComponent implements OnInit {
       f: [0,0,0,0,0,0,0,0,0,0],
       g: [0,0,0,0,0,0,0,0,0,0],
       h: [0,0,0,0,0,0,0,0,0,0],
-      i: [0,0,0,0,0,0,0,0,0,0],
+      i: [0,0,0,0,0,0,0,0,0,0], 
       j: [0,0,0,0,0,0,0,0,0,0]
     }
+
+  boardValue: number ; // number 0-4 that will tell the template which background color to choose
+
+  constructor(private gameService: GameService, private auth: AngularFireAuth) { }
 
   
   showThing(row, col){
@@ -103,4 +105,19 @@ export class BoardComponent implements OnInit {
   // }
 
 
+  getBGColor(row, col){
+    let clickedValue = this.boardStatus[row][col];
+    if (clickedValue === 0){
+      return "blue";
+    }
+    if (clickedValue === 1){
+      return "gray";
+    }
+    if (clickedValue === 2){
+      return "black";
+    }
+    if (clickedValue === 3){
+      return "red";
+    }
+  }
 }
