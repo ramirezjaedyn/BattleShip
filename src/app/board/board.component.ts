@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Board } from '../interfaces/board.interface';
+import { Ship } from '../interfaces/ship.interface';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -13,7 +14,12 @@ export class BoardComponent implements OnInit {
   @Input() isUserBoard: boolean;// tells the component whether it is the user or opponent's board
 
   // Different ships that the user can place or destroy on the board
-  ships: Array<Object> = [{"destroyer": 2}, {"sub": 3}, {"cruiser":4}, {"battleship": 5}];
+  shipsRemaining: Array<Ship> = [
+    {name: "destroyer", length: 2}, 
+    {name: "submarine", length: 3},
+    {name: "battleship", length: 4},
+    {name: "carrier", length: 5},
+  ];
 
   constructor(private gameService: GameService, private auth: AngularFireAuth) { }
 

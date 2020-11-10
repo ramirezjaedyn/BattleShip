@@ -17,3 +17,6 @@
         <td *ngFor="let col of boardStatus[row]; let i = index" (click)="checkBoard(row, i)"> 
     </tr>
 </table>
+
+<h3>Ships Remaining:</h3>
+<div *ngFor="let ship of shipsRemaining">{{ ship.name }}</div>
