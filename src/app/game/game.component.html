@@ -1,3 +1,7 @@
 <!-- Inserts board component -->
-<p>hello game</p>
-<app-board></app-board>
+
+<!-- Pass the player id that ISN'T the userId and isUser = false-->
+<app-board [isUserBoard]="false"></app-board>
+<!-- Pass the player id that IS the userId and isUser = true-->
+<app-board [isUserBoard]="true"></app-board>
+
