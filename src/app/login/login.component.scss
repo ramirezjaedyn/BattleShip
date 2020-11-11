@@ -6,9 +6,9 @@
     margin: 10px auto;
   }
   
-  .largeBtn{
-      width: 250px;
-      height: 200px;
+ .largeBtn{
+      width: 300px;
+      height: 250px;
       font-size: large;
     
   }
@@ -19,7 +19,7 @@
   
   .content {
     width: calc(20% - 10px);
-    height: 245px;
+    height: 300px;
     margin-top: 10px;
     border: 2px solid #353535;
     background-color: #4b4b4b;
@@ -37,9 +37,9 @@
   }
   
 .login{
-    max-width: 500px;
+    max-width: 600px;
     margin: auto;
-    border: solid black 1px;
+    border: solid black 5px;
     border-radius: 15px;
     padding: 5%;
 }

@@ -7,12 +7,13 @@ import{AngularFireAuthGuard,redirectUnauthorizedTo, redirectLoggedInTo } from'@a
 
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedInToGame = () => redirectLoggedInTo(['game/:gameId']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['/']);
+//const redirectLoggedInToGame = () => redirectLoggedInTo(['/game:gamId']);
 //
 
 const routes: Routes = [
-  {path: '', component: HomeComponent}, 
-  {path: 'login', component: LoginComponent, canActivate:[AngularFireAuthGuard], data: { authGuardPipe: redirectLoggedInToGame }},
+  {path: '', component: HomeComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }}, 
+  {path: 'login', component: LoginComponent, canActivate:[AngularFireAuthGuard], data: { authGuardPipe: redirectLoggedInToHome }},
   {path: 'game/:gameId', component: GameComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }},
   {path: '**', redirectTo: '/'}
 ];

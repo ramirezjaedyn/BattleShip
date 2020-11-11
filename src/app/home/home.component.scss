@@ -1,0 +1,37 @@
+.container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 10px auto;
+  }
+  
+  .largeBtn{
+      width: 300px;
+      height: 250px;
+      font-size: large;
+    
+  }
+  
+  .w-100 {
+    width: 100%;
+  }
+  
+  .content {
+    width: calc(20% - 10px);
+    height: 245px;
+    margin-top: 10px;
+    border: 3px solid #353535;
+    background-color: #c7c0c0;
+    padding: 0px 5px;
+    border-radius: 10px;
+    justify-content: center !important;
+  }
+  
+  .txt-center {
+    text-align: center;
+  }
+  
+  p {
+    margin-top: 50px;
+  }
+  

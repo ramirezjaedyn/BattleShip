@@ -1,1 +1,17 @@
-<p>hello home</p>
+
+<h1 class="txt-center container">Home</h1>
+
+<div class="container">
+  <div class="content">
+    <form class="example-form">
+      <mat-form-field class="w-100">
+        <mat-label>Enter Game URL</mat-label>
+        <input matInput type='text' name="room code" ><!--[(ngModel)]='roomCode'>-->
+      </mat-form-field>
+      <button mat-raised-button class="w-100" color="primary" (click)='navGame()'>Join Game</button>
+    </form>
+
+    <p class="txt-center">Not joining an existing game?</p>
+    <button (click)="loggedIn()" class="largeButton w-100" mat-raised-button color="primary">Start New Game</button>
+</div>
+</div>
