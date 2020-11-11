@@ -1,12 +1,12 @@
 export interface Board{
-    a: Array<number>;
-    b: Array<number>;
-    c: Array<number>;
-    d: Array<number>;
-    e: Array<number>;
-    f: Array<number>;
-    g: Array<number>;
-    h: Array<number>;
-    i: Array<number>;
-    j: Array<number>;
+    0: Array<number>;
+    1: Array<number>;
+    2: Array<number>;
+    3: Array<number>;
+    4: Array<number>;
+    5: Array<number>;
+    6: Array<number>;
+    7: Array<number>;
+    8: Array<number>;
+    9: Array<number>;
     }

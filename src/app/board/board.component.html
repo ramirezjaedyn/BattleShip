@@ -13,10 +13,28 @@
         <th>10</th>
     </tr>
     <tr *ngFor="let row of objectKeys(boardStatus)">
-        <th>{{row | uppercase}}</th>
-        <td *ngFor="let col of boardStatus[row]; let i = index" (click)="checkBoard(row, i)"[style.backgroundColor]="getBGColor(row,i)"> 
+        <th>{{rows[row] | uppercase}}</th>
+        <td *ngFor="let col of boardStatus[row]; let i = index" (mouseenter)="shipPreview(row, i)" (click)="checkBoard(row, i)"[style.backgroundColor]="getBGColor(row,i)"> 
     </tr>
 </table>
 
 <h3>Ships Remaining:</h3>
-<div *ngFor="let ship of shipsRemaining">{{ ship.name }}</div>
+<div *ngFor="let ship of shipsRemaining">
+    <div *ngIf="isUserBoard">
+        <!-- need to make is so that when you hover, the ship text changes colors and when you click, it turns bold or something -->
+        <!--  (click)="shipPreview(ship.length)" [style.fontWeight]="fontStyle" -->
+        <div> {{ ship.name | titlecase}} ({{ship.length}})</div>
+    </div>  
+    
+    <div *ngIf="!isUserBoard">
+        <div>{{ ship.name | titlecase}}</div>
+    </div>
+</div>
+
+<div *ngIf="isUserBoard">
+    <mat-radio-group [(ngModel)]="isVertical" aria-label="User Ship Placement:">
+        <mat-radio-button value="false">Horizontal</mat-radio-button>
+        <mat-radio-button value="true">Vertical</mat-radio-button>
+    </mat-radio-group>
+    {{isVertical}}
+</div>
