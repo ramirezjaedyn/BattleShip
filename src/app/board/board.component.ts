@@ -21,7 +21,9 @@ export class BoardComponent implements OnInit {
     { name: "carrier", length: 5 },
   ];
 
-  selectedShip: Ship = { name: "destroyer", length: 2 }; // will be the most recent ship clicked on by the user
+  coords: Array<Array<any>> = []
+
+  selectedShip: Ship = this.shipsRemaining[0]; // will be the most recent ship clicked on by the user
 
   objectKeys = Object.keys;
   boardStatus: Board =
@@ -42,6 +44,7 @@ export class BoardComponent implements OnInit {
   boardValue: number; // number 0-4 that will tell the template which background color to choose
 
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
+  boxColor: string; // the color that the boxes will change to on the board
 
   constructor(private gameService: GameService, private auth: AngularFireAuth) { }
 
@@ -102,45 +105,71 @@ export class BoardComponent implements OnInit {
   }
 
 
+  markCoords(val){
+    this.coords.forEach(c =>{
+      this.boardStatus[c[0]][c[1]] = val;
+    })
+    if(val === 1){
+      this.coords = [];
+      this.shipsRemaining.shift();
+      // if there are ships then
+      this.selectedShip = this.shipsRemaining[0]
+      // otherwise mark them as ready to go
+    }
+  }
   // this.gameService.checkOppBoard(row, col); // WORK WITH JAEDYN TO CREATE METHOD IN THE SERVICE
 
 
+// OBSOLETE FOR THE TIME BEING.. BRING BACK LATER.  WAS GETTING CALLED IN [STYLE]
+  // getBGColor(row, col) { // NEED TO TAKE INTO ACCOUNT WHICH BOARD WE ARE SHOWING
+  //   let clickedValue = this.boardStatus[row][col];
+  //   if (clickedValue === 0) {
+  //     return "blue";
+  //   }
+  //   if (clickedValue === 1) {
+  //     return "gray";
+  //   }
+  //   if (clickedValue === 2) {
+  //     return "black";
+  //   }
+  //   if (clickedValue === 3) {
+  //     return "red";
+  //   }
+  // }
 
-  getBGColor(row, col) { // NEED TO TAKE INTO ACCOUNT WHICH BOARD WE ARE SHOWING
-    let clickedValue = this.boardStatus[row][col];
-    if (clickedValue === 0) {
-      return "blue";
-    }
-    if (clickedValue === 1) {
-      return "gray";
-    }
-    if (clickedValue === 2) {
-      return "black";
-    }
-    if (clickedValue === 3) {
-      return "red";
-    }
-  }
+  shipPlacement(row, col, set) {
+    this.markCoords(0)
+    if (this.boardStatus[row][col] === 0 || this.boardStatus[row][col] === 5) {
+      // we want the selected value to be a light gray
 
-  shipPreview(row, col) {
-
-    if (this.boardStatus[row][col] === 0) {
-      console.log("this spot is a '0'")
+      this.coords = []
       // Horizontal ships
       if (this.isVertical == 'false') {
-        //                should be a global var
         for (let i = col; i < col+this.selectedShip.length; i++) {
-          console.log(this.boardStatus[row][i])
-          
+          if(this.boardStatus[row][i] === 0 || this.boardStatus[row][i] === 5){
+            this.coords.push([row, i])
+          }
+          else{
+            this.coords = []
+            break;
+          }
         }
+        
       }
+      // Vertical ships
       else{
         for (let i = parseInt(row); i < (parseInt(row) + this.selectedShip.length); i++) {
-          // If i > 9 break out
-          console.log(this.boardStatus[i][col])
-          
+          if( i <= 9 && (this.boardStatus[i][col] === 0 || this.boardStatus[i][col] === 5)){
+            this.coords.push([i, col])
+          }
+          else{
+            this.coords = [];
+            break;
+          }
         }
+
       }
+      this.markCoords(set ? 1: 5)
       //console.log(row, col);
     }
 
@@ -161,5 +190,9 @@ export class BoardComponent implements OnInit {
   // If a ship is selected (button clicked on template), check the horiz/vert status and run the func as you hover
 
   // wait for click to try to place ship... if all 0's, let it place, otherwise don't allow
+  guessShot(row, col) {
+    console.log("shot fired");
+    
+  }
 
 }

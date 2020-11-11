@@ -1,7 +1,7 @@
 td {
     background-color: blue;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
 }
 
 table {
@@ -10,4 +10,27 @@ table {
 
 td:hover {
     filter: brightness(70%);
+}
+
+.ship-info-container {
+    max-width: 250px;
+    padding: 15px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.cell-0{
+    background-color: blue;
+}
+.cell-1, .cell-5{
+    background-color: gray;
+}
+.cell-2{
+    background-color: white;
+}
+.cell-3{
+    background-color: orange;
+}
+.cell-4{
+    background-color: red;
 }
