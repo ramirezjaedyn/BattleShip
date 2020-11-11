@@ -11,10 +11,10 @@ const redirectLoggedInToGame = () => redirectLoggedInTo(['game/:gameId']);
 //
 
 const routes: Routes = [
-  //{path: '', component: HomeComponent}, 
+  {path: '', component: HomeComponent}, 
   {path: 'login', component: LoginComponent, canActivate:[AngularFireAuthGuard], data: { authGuardPipe: redirectLoggedInToGame }},
   {path: 'game/:gameId', component: GameComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }},
-  {path: '**', redirectTo: '/login'}
+  {path: '**', redirectTo: '/'}
 ];
 
 @NgModule({

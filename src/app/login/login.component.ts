@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   }
   
   login() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(v=> {
-      this.router.navigate(['game/:gameId'])
+    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(v => {
+      this.router.navigate(['/home'])
     });
   }
   logout() {
