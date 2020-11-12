@@ -46,8 +46,11 @@ export class BoardComponent implements OnInit {
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
   boxColor: string; // the color that the boxes will change to on the board
 
+  oppBoard: Board;
+
   constructor(private gameService: GameService, private auth: AngularFireAuth) { 
     // isUser ? subscribe to the enemies board replacing 1s with 0s
+    //this.oppBoard = gameService.retrieveBoard()
   }
 
 
@@ -69,7 +72,8 @@ export class BoardComponent implements OnInit {
       }
       else{
         // service function to send ENTIRE board and lock ships
-        this.gameService.submitBoard(this.coords)
+        console.log(this.boardStatus); // remove board
+        //this.gameService.submitBoard(this.boardStatus);   ADD LATER WITH SERVICE!!!!!!!!!
       }
     }
   }
@@ -118,7 +122,7 @@ export class BoardComponent implements OnInit {
   }
   guessShot(col, row) {
     console.log("player guessed shot");
-    this.gameService.guessShot(col, row);
+    // this.gameService.guessShot(col, row); ADD LATER WITH SERVICE!!!!!!!!!
     
   }
 

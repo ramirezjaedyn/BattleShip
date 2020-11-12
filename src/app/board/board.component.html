@@ -29,16 +29,18 @@
 </table>
 
 <!-- OPPONENT'S BOARD -->
+<!-- ADD BACK DURING MMP WHEN SHOWING ENEMY SHIPS REMAINING
 <div class="ship-info-container" *ngIf="!isUserBoard">
     <h3>Opponent's Ships Remaining:</h3>
     <div *ngFor="let ship of shipsRemaining">
         <div>{{ ship.name | titlecase}}</div>
     </div>
 </div>
+ -->
 
 
 <!-- USER'S BOARD -->
-<div class="ship-info-container" *ngIf="isUserBoard && shipsRemaining.length !== 0">
+<div class="ship-info-container relative margin-auto" *ngIf="isUserBoard && shipsRemaining.length !== 0">
     <h3 >Your Ships Remaining:</h3>
     <div *ngFor="let ship of shipsRemaining; let i = index">
         <!--   [style.fontWeight]="fontStyle" IF WE ADD BOLD TO THE CURRENT SHIP-->
