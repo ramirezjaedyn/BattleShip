@@ -51,7 +51,7 @@ this.afs.collection('game').doc(`${gameId}`).set({
 
 // Players set ships
 
-submitBoard(board: Board, player) {
+submitBoard(board, player, gameId) {
   // Who's board it is, what the board is, set shipsLocked to true, if BOTH ships are locked set boardReady to true
   this.afs.collection('game').doc(`${gameId}`).update({
     player1: {
@@ -79,21 +79,19 @@ submitBoard(board: Board, player) {
 
 guessShot(col, row, player, boardStatus) {
 // where and who
-let activePlayer = 
-let !activePlayer = 
 
-if(this.boardStatus[row][col] === ? | activePlayer === true) { }
 // compare shot to the other's board
-this.boardStatus[row][col] === 2 | (activePlayer === false)
+
   // update the other's board accordingly
 
 
 // if it's a hit, is that ship sunk?
-if(this.boardStatus[row][col] === 2)
-return "You missed"
+
   // If it is sunk, update shipsLeft 
     // If there aren't any check for winner
 
 }
 
-gameOver(col, row,) { }
+gameOver(col, row) {
+
+}}
