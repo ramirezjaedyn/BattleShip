@@ -20,14 +20,6 @@ export class GameService {
     });
   
   }
-  //  Game Collection(s)
-  //  Players (count and people)
-  //  If game over - boolean
-  //  winner - string
-  //  Whose Turn it is - ??
-  //  Player 2 Board Status - {}
-  //  Player 1 board
-  //  Game ready to start - boolean
 
 // Game Functions 
 
@@ -45,7 +37,7 @@ this.afs.collection('game').doc(`${gameId}`).set({
     },
     player2: {
       boardStatus:{},
-      userId: null, // nothing yet
+      userId: null, 
       shipsLocked: false,
       shipsLeft: [],
       playerReady: false
@@ -55,42 +47,88 @@ this.afs.collection('game').doc(`${gameId}`).set({
     gameOver: false,
     winner: null,
     activePlayer: null
-  }); 
+  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
 }
 
 
 // Players set ships
 
-
-// Board Ready
-startGame() {
-
+// Start Game -- Game starts with player one
+startGame(gameId) {
+  this.afs.collection('game').doc(`${gameId}`).update({
+    player1: {
+      boardStatus: {},
+      userId: this.userId,
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: true
+    },
+    player2: {
+      boardStatus:{},
+      userId: this.userId, 
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: false
+    },
+    gameId: this.gameId,
+    boardReady: true,
+    gameOver: false,
+    winner: null,
+  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
 }
 
-
-// Locked Board Function 
-lockedBoard(gameId) {
-  this.afs.collection('game').doc(`${gameId}`).set({
-    boardLocked: true 
-  }); 
+// UpdateGame 
+updateGame(gameId) {
+  this.afs.collection('game').doc(`${gameId}`).update({
+    player1: {
+      boardStatus: {},
+      userId: this.userId,
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: false
+    },
+    player2: {
+      boardStatus:{},
+      userId: this.userId, 
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: true
+    },
+    gameId: this.gameId,
+    boardReady: true,
+    gameOver: false,
+    winner: null,
+  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
 }
-//Update Board
-// Player One Starts
 
-// Rotate Turns
+// Ships left and what type
 
-// Game over = When a player reaches 14 points game is over and winner is announced
-gameOver() {
-
-}
-
-// Replay
-replay() {
-
-}
-
-// Leave Game
-leaveGame() {
-
-}
-}
+// Game Winner 
+winnerGame(gameId) {
+  this.afs.collection('game').doc(`${gameId}`).update({
+    player1: {
+      boardStatus: {},
+      userId: this.userId,
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: false
+    },
+    player2: {
+      boardStatus:{},
+      userId: this.userId, 
+      shipsLocked: true,
+      shipsLeft: [],
+      playerReady: true,
+      activePlayer: true
+    },
+    gameId: this.gameId,
+    boardReady: true,
+    gameOver: true,
+    winner: true,
+  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
+}}
