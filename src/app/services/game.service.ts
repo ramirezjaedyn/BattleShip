@@ -93,4 +93,8 @@ replay() {
 leaveGame() {
 
 }
+
+
+guessShot(col, row){} // FEEL FREE TO REMOVE ON MERGE
+submitBoard(board){} // REMOVE LATER
 }

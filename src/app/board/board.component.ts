@@ -40,7 +40,7 @@ export class BoardComponent implements OnInit {
       8: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       9: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
-  rows = ['a', 'b', 'c', 'd','e', 'f', 'g', 'h', 'i', 'j']
+  rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   boardValue: number; // number 0-4 that will tell the template which background color to choose
 
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
@@ -54,21 +54,22 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   markCoords(val){
     this.coords.forEach(c =>{
-      this.boardStatus[c[0]][c[1]] = val;
+      this.boardStatus[c[0]][c[1]] = val; 
   
     })
-    if(val === 1){
+    // if ship is placed on board
+    if(val === 1){ 
       this.coords = [];
       this.shipsRemaining.shift();
       // if there are ships then
       if(this.shipsRemaining.length > 0){
-      this.selectedShip = this.shipsRemaining[0]
+        this.selectedShip = this.shipsRemaining[0]
       }
       else{
         // service function to send ENTIRE board and lock ships
+        this.gameService.submitBoard(this.coords)
       }
     }
   }
@@ -106,12 +107,20 @@ export class BoardComponent implements OnInit {
         }
 
       }
-      this.markCoords(set ? 1: 5)
-      //console.log(row, col);
+      // If there is a valid spot in the projected ship placement & the user clicks on the spot, let them place it
+      if (this.coords.length !== 0 && set) {
+        this.markCoords(1);
+        // could add functionality that takes those coordinates and adds them to a 'shipsPlaced' array (MMP)
+      }
+      else {
+        this.markCoords(5);
+      }
+      
     }
   }
   guessShot(col, row) {
     console.log("player guessed shot");
+    this.gameService.guessShot(col, row);
     
   }
 
