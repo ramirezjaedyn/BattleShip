@@ -26,9 +26,9 @@ export class BoardComponent implements OnInit {
   selectedShip: Ship = this.shipsRemaining[0]; // will be the most recent ship clicked on by the user
 
   objectKeys = Object.keys;
-  boardStatus: Board =
+  boardStatus: Board = //isUserBoard ? below : null
     // 0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship
-    { //  1 2 3 4 5 6 7 8 9 10
+    { //  1  2  3  4  5  6  7  8  9  10
       0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -46,96 +46,33 @@ export class BoardComponent implements OnInit {
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
   boxColor: string; // the color that the boxes will change to on the board
 
-  constructor(private gameService: GameService, private auth: AngularFireAuth) { }
-
-
-  showThing(row, col) {
-    // row and col spots correspondance
-    this.boardStatus[row][col] = 2
-    console.log(this.boardStatus)
+  constructor(private gameService: GameService, private auth: AngularFireAuth) { 
+    // isUser ? subscribe to the enemies board replacing 1s with 0s
   }
+
 
   ngOnInit(): void {
-  }
-
-  checkBoard(row, col) {
-    // User's game board
-    if (this.isUserBoard) {
-      this.checkUserBoard(row, col);
-    }
-    // Opponent's game board
-    else {
-      this.checkOppBoard(row, col);
-    }
-
-  }
-
-  checkOppBoard(row, col) {
-    // number currently on the spot that was clicked
-    let clickedValue = this.boardStatus[row][col];
-    console.log(clickedValue);
-
-    // If clicked on the user's board and it IS a spot that has already been clicked on earlier...
-    if (clickedValue === 2 || clickedValue === 3 || clickedValue === 4) {
-      // Let the user know that the spot they chose has already been clicked
-      console.log("Can't click here");
-    }
-    if (clickedValue === 0) {
-      this.boardStatus[row][col] = 2
-      console.log("User missed the shot!")
-    }
-    if (clickedValue === 1) {
-      this.boardStatus[row][col] = 3
-      console.log("User hit the enemy ship!");
-      // (MMP) RUN FUNC THAT CHECKS IF THE ENTIRETY OF A SHIP HAS BEEN DESTROYED
-      // RUN FUNC THAT CHECKS IF GAME IS OVER 
-    }
-  }
-
-  checkUserBoard(row, col) {
-    let clickedValue = this.boardStatus[row][col];
-    if (clickedValue === 0) {
-      console.log("so far so good");
-
-      // So far so good
-    }
-    if (clickedValue === 1) {
-      // can't click here
-    }
   }
 
 
   markCoords(val){
     this.coords.forEach(c =>{
       this.boardStatus[c[0]][c[1]] = val;
+  
     })
     if(val === 1){
       this.coords = [];
       this.shipsRemaining.shift();
       // if there are ships then
+      if(this.shipsRemaining.length > 0){
       this.selectedShip = this.shipsRemaining[0]
-      // otherwise mark them as ready to go
+      }
+      else{
+        // service function to send ENTIRE board and lock ships
+      }
     }
   }
-  // this.gameService.checkOppBoard(row, col); // WORK WITH JAEDYN TO CREATE METHOD IN THE SERVICE
-
-
-// OBSOLETE FOR THE TIME BEING.. BRING BACK LATER.  WAS GETTING CALLED IN [STYLE]
-  // getBGColor(row, col) { // NEED TO TAKE INTO ACCOUNT WHICH BOARD WE ARE SHOWING
-  //   let clickedValue = this.boardStatus[row][col];
-  //   if (clickedValue === 0) {
-  //     return "blue";
-  //   }
-  //   if (clickedValue === 1) {
-  //     return "gray";
-  //   }
-  //   if (clickedValue === 2) {
-  //     return "black";
-  //   }
-  //   if (clickedValue === 3) {
-  //     return "red";
-  //   }
-  // }
+  
 
   shipPlacement(row, col, set) {
     this.markCoords(0)
@@ -172,27 +109,26 @@ export class BoardComponent implements OnInit {
       this.markCoords(set ? 1: 5)
       //console.log(row, col);
     }
-
-
-    // change the css font to bold on the text of the ship 'clicked'
-
-    // determine which spots the ship would occupy based off of orientation && length
-    // if it is horizontal, loop through in that same row
-
-    // if is vertical, loop through keys in the same col 
-
-    // based off of the possible spots, when user hovers mouse, change the other possible spots' colors as well
-
   }
-
-  // While the ship is selected and the user is trying to place a ship...
-  //shipOrientation()
-  // If a ship is selected (button clicked on template), check the horiz/vert status and run the func as you hover
-
-  // wait for click to try to place ship... if all 0's, let it place, otherwise don't allow
-  guessShot(row, col) {
-    console.log("shot fired");
+  guessShot(col, row) {
+    console.log("player guessed shot");
     
   }
 
-}
+  }
+
+
+// Start off hardcoded local board (or subscribed if it's the non user board)
+
+// Hover and see ship placement (done)
+
+// Place a ship (done)
+
+// Lock ships
+  // Send entire board to firebase
+  // Subscribe to the user's board in firebase
+
+// Guess a shot
+  // Function that checks 
+
+// Update the board
