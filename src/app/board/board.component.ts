@@ -78,8 +78,6 @@ export class BoardComponent implements OnInit {
   shipPlacement(row, col, set) {
     this.markCoords(0)
     if (this.boardStatus[row][col] === 0 || this.boardStatus[row][col] === 5) {
-      // we want the selected value to be a light gray
-
       this.coords = []
       // Horizontal ships
       if (this.isVertical == 'false') {
@@ -122,6 +120,19 @@ export class BoardComponent implements OnInit {
     console.log("player guessed shot");
     this.gameService.guessShot(col, row);
     
+  }
+
+  /**
+   * This func is ran on each iteration of the *ngFor displaying "Your Ships Remaining:"
+   * Will turn the font weight of the first index bold, and the rest will be normal
+   * @param idx index of the ship in the *ngFor
+   * @returns "bold" if it is the first in the list, otherwise "normal"
+   */
+  checkIfFirst(idx) {
+    if (idx === 0) {
+      return "bold"
+    }
+    return "normal"
   }
 
   }
