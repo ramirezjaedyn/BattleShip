@@ -107,28 +107,5 @@ updateGame(gameId) {
 
 // Ships left and what type
 
-// Game Winner 
-winnerGame(gameId) {
-  this.afs.collection('game').doc(`${gameId}`).update({
-    player1: {
-      boardStatus: {},
-      userId: this.userId,
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: false
-    },
-    player2: {
-      boardStatus:{},
-      userId: this.userId, 
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: true
-    },
-    gameId: this.gameId,
-    boardReady: true,
-    gameOver: true,
-    winner: true,
-  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
-}}
+
+}

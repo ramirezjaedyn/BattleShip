@@ -1,7 +1,15 @@
 <!-- Inserts board component -->
 
-<!-- Pass the player id that ISN'T the userId and isUser = false-->
-<app-board [isUserBoard]="false"></app-board>
-<!-- Pass the player id that IS the userId and isUser = true-->
-<app-board [isUserBoard]="true"></app-board>
+<div class="flex">
+    <!-- Pass the player id that ISN'T the userId and isUser = false-->
+    <div class="board-container row">
+        <h2>Opponent's Board</h2>
+        <app-board [isUserBoard]="false"></app-board>
+    </div>
 
+    <!-- Pass the player id that IS the userId and isUser = true-->
+    <div class="board-container row">
+        <h2>Your Board</h2>
+        <app-board [isUserBoard]="true" class="margin-auto relative"></app-board>
+    </div>
+</div>
