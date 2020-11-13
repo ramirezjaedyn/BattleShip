@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore'
 import { SocketService } from './socket.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Board } from '../interfaces/board.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +90,7 @@ export class GameService {
       if (victimBoardCoord === 1) {
         console.log("Enemy hit!");
         boards[victim][col][row] = 3; // changes value to "hit" 
+        // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
         // RUN FUNC TO CHECK IF GAME OVER (any 1's left on the victim's board)
         // Swap player statuses and update DB boards
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
@@ -115,5 +117,20 @@ export class GameService {
    // NYI
  }
 
-
+ /**
+  * Checks if any 1's are still on the board. If not, the game would be over
+  * @param board player Board object
+  * @returns boolean
+  */
+ checkIfGameOver(board: Board): boolean{
+  // iterate through the board's values, looking for any 1's...
+  for (const row in board) {
+    // If there are untouched ship locations (1's), the game isn't over
+    if (board[row].includes(1)) {
+      return false;
+    }
+  }
+  // only runs if there are no 1's left on the board (thus, game over)
+  return true
+ }
 }
