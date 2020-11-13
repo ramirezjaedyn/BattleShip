@@ -91,7 +91,13 @@ export class GameService {
         console.log("Enemy hit!");
         boards[victim][col][row] = 3; // changes value to "hit" 
         // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
-        // RUN FUNC TO CHECK IF GAME OVER (any 1's left on the victim's board)
+        // Check if the game is over
+        let gameOver = this.checkIfGameOver(boards[victim]);
+        if (gameOver) {
+          console.log("GAME IS OVER"); 
+          this.afs.collection('game').doc(`${this.gameId}`).update({gameOver: true, winner: shooter}); 
+
+        }
         // Swap player statuses and update DB boards
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
           boards: boards}); 
