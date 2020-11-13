@@ -8,11 +8,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class GameService {
-  db = this.afs.collection('game')
+  // db = this.afs.collection('game')
   userId: string = "";
   gameId: string;
   boardReady: boolean = true;
   playerTurn: boolean = true;
+  gameInfo: any = null
 
   constructor(private router: Router, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) { 
     this.auth.user.subscribe(v=> {
@@ -20,86 +21,55 @@ export class GameService {
     });
   
   }
- 
-
-navGame(gameId: string) {
-  // TODO: Needs to be implemented
-  this.router.navigate([`/game/${gameId}`])
-}
-
-// Create Game
-createGame(hostPlayer: string) {
-// Unique Game ID  
-
-this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
-this.afs.collection('game').doc(`${this.gameId}`).set({
-    player1: {
-      boardStatus: {},
-      userId: this.userId,
-      // shipsLocked: false,
-      // shipsLeft: [],
-      playerReady: false
-    },
-    player2: {
-      boardStatus:{},
-      userId: null, 
-      // shipsLocked: false,
-      // shipsLeft: [],
-      playerReady: false
-    },
-    boardReady: false,
+ createGame(){
+  this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
+  this.afs.collection('game').doc(`${this.gameId}`).set({
+    gameId: this.gameId,
     gameOver: false,
     winner: null,
-    activePlayer: null
-  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
-}
-
-
-
-  // Players set ships
-
-
-submitBoard(board, player, gameId) {
-  // Who's board it is, what the board is, set shipsLocked to true, if BOTH ships are locked set boardReady to true
-  this.afs.collection('game').doc(`${gameId}`).update({
-    player1: {
-      boardStatus: {},  // if it's player 1
-      // userId: this.userId,
-      // shipsLocked: true,
-      // shipsLeft: [],
-      playerReady: true, // this one???
-    },
-    player2: {
-      boardStatus:{}, // if it's player 2
-      userId: this.userId, 
-      // shipsLocked: true,
-      // shipsLeft: [],
-      playerReady: true, // this one??
-    },
-    // gameId: this.gameId,
-    // boardReady: true,
-    // gameOver: false,
-    // winner: null,
+    gameReady: false,
+    numLocked: 0,
+    activePlayer: this.userId,
+    inactivePlayer: null,
+    boards: {}
   })
-    
-  }
+  // subscribe to that doc
+  // navigate them to that page
+  
+ }
 
 
-guessShot(col, row, player, boardStatus) {
-// where and who
+ joinGame(gameId: string){
+  // Does that game exist?? 
+    // YES - Is there an inactive player?
+      // YES - GTFO
+      // NO  - set inactive player, set this.gameId subscribe to that doc
+      // NO - Show error
+ }
 
-// compare shot to the other's board
 
-  // update the other's board accordingly
+ submitBoard(board){
+   // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
+ }
 
 
-// if it's a hit, is that ship sunk?
+ guessShot(col: number, row: number){
+    // I'm active 1234
+    // Inactive is 5678
+    // I take a shot it says ok who's inactive
+    // Check game.boards.5678 at some coordinates []
+    // Let's say I shot A5 (0, 4)
+    // Hey check game.boards.5678.0[4] 
+        // Is it a 2,3,4? Ignore the shot and don't continue
+        // Is it 0 then change to 2
+        // Is it a 1, change to 3 check for gameOver
+        // Swap inactive and active players if not gameOver
+ }
 
-  // If it is sunk, update shipsLeft 
-    // If there aren't any check for winner
 
-}
+ showWinner(){
+   // NYI
+ }
 
-gameOver(col, row) {
-}
+
 }

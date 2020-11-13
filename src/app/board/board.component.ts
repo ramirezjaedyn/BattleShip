@@ -72,8 +72,10 @@ export class BoardComponent implements OnInit {
       }
       else{
         // service function to send ENTIRE board and lock ships
-        console.log(this.boardStatus); // remove board
-        //this.gameService.submitBoard(this.boardStatus);   ADD LATER WITH SERVICE!!!!!!!!!
+        console.log(this.boardStatus);
+        let player: string = "player1";  // DUMMY DATA, DELETE LATER
+        let gameId: string = '123';  // DUMMY DATA, DELETE LATER
+        this.gameService.submitBoard(this.boardStatus);
       }
     }
   }
