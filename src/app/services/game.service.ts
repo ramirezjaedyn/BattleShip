@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore' 
+import { AngularFirestore } from '@angular/fire/firestore'
 import { SocketService } from './socket.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -15,11 +15,11 @@ export class GameService {
   playerTurn: boolean = true;
   gameInfo: any = null
 
-  constructor(private router: Router, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) { 
+  constructor(private router: Router, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) {
     this.auth.user.subscribe(v=> {
       this.userId = v ? v.uid : null;
     });
-  
+
   }
  createGame(){
   this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
@@ -32,20 +32,39 @@ export class GameService {
     activePlayer: this.userId,
     inactivePlayer: null,
     boards: {}
-  })
-  // subscribe to that doc
+    // subscribe to that doc
   // navigate them to that page
-  
- }
+  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
+  }
 
 
  joinGame(gameId: string){
-  // Does that game exist?? 
-    // YES - Is there an inactive player?
-      // YES - GTFO
-      // NO  - set inactive player, set this.gameId subscribe to that doc
-      // NO - Show error
+  // Does that game exist??
+  this.afs.firestore.doc(`${this.gameId}`).get()
+    .then(docSnapshot => {
+      if(docSnapshot.exists){
+        // YES - Is there an inactive player?
+        let gameData = docSnapshot.data();
+        if (gameData.inactivePlayer){
+          return true;
+          // YES - GTFO
+          console.log("Game is full.")
+
+          // pop up an error
+        } else{
+          // NO  - set inactive player, set this.gameId subscribe to that doc
+          this.afs.doc(`${this.gameId}`).update({
+            inactivePlayer : this.userId,
+          }).then(val=>
+            this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
+          )
+        }
+      }
+    });
  }
+
+
+
 
 
  submitBoard(board){
@@ -59,7 +78,7 @@ export class GameService {
     // I take a shot it says ok who's inactive
     // Check game.boards.5678 at some coordinates []
     // Let's say I shot A5 (0, 4)
-    // Hey check game.boards.5678.0[4] 
+    // Hey check game.boards.5678.0[4]
         // Is it a 2,3,4? Ignore the shot and don't continue
         // Is it 0 then change to 2
         // Is it a 1, change to 3 check for gameOver
