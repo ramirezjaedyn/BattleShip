@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore'
 import { SocketService } from './socket.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Board } from '../interfaces/board.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,7 @@ export class GameService {
     let victim = this.gameInfo.inactivePlayer;
     // If it is the proper user's turn and they clicked...
     if (this.userId === shooter) {
-      console.log("Shooter shot");
+      console.log("Shooter successfully attempted a shot");
       let boards = {...this.gameInfo.boards};
       let victimBoardCoord = boards[victim][col][row]; 
       // Invalid location clicked
@@ -81,7 +82,7 @@ export class GameService {
       if (victimBoardCoord === 0) {
         console.log("You missed!");
         boards[victim][col][row] = 2; // changes value to "missed" 
-        // Swap player statuses
+        // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
           boards: boards}); 
       } 
@@ -89,8 +90,15 @@ export class GameService {
       if (victimBoardCoord === 1) {
         console.log("Enemy hit!");
         boards[victim][col][row] = 3; // changes value to "hit" 
-        // RUN FUNC TO CHECK IF GAME OVER (any 1's left on the victim's board)
-        // Swap player statuses and update DB boards
+        // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
+        // Check if the game is over
+        let gameOver = this.checkIfGameOver(boards[victim]);
+        if (gameOver) {
+          console.log("GAME IS OVER"); 
+          // Update firestore
+          this.afs.collection('game').doc(`${this.gameId}`).update({gameOver: true, winner: shooter}); 
+        }
+        // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
           boards: boards}); 
       }
@@ -98,16 +106,6 @@ export class GameService {
     else {
       console.log("It isn't your turn to shoot");
     }
-    
-    
-    // I take a shot it says ok who's inactive
-    // Check game.boards.5678 at some coordinates []
-    // Let's say I shot A5 (0, 4)
-    // Hey check game.boards.5678.0[4] 
-        // Is it a 2,3,4? Ignore the shot and don't continue
-        // Is it 0 then change to 2
-        // Is it a 1, change to 3 check for gameOver
-        // Swap inactive and active players if not gameOver
  }
 
 
@@ -115,5 +113,20 @@ export class GameService {
    // NYI
  }
 
-
+ /**
+  * Checks if any 1's are still on the board. If not, the game would be over
+  * @param board player Board object
+  * @returns boolean
+  */
+ checkIfGameOver(board: Board): boolean{
+  // Iterate through the board's keys
+  for (const row in board) {
+    // If any of the key's values include a 1, the game isn't over
+    if (board[row].includes(1)) {
+      return false;
+    }
+  }
+  // If there are no 1s in board, game over
+  return true;
+ }
 }
