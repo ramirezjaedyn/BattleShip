@@ -20,8 +20,7 @@ export class GameService {
     });
   
   }
-
-// Game Functions 
+ 
 
 // Create Game
 createGame(gameId) {
@@ -31,19 +30,18 @@ this.afs.collection('game').doc(`${gameId}`).set({
     player1: {
       boardStatus: {},
       userId: this.userId,
-      shipsLocked: false,
-      shipsLeft: [],
+      // shipsLocked: false,
+      // shipsLeft: [],
       playerReady: false
     },
     player2: {
       boardStatus:{},
       userId: null, 
-      shipsLocked: false,
-      shipsLeft: [],
+      // shipsLocked: false,
+      // shipsLeft: [],
       playerReady: false
     },
-    gameId: this.gameId,
-    boardReady: true,
+    boardReady: false,
     gameOver: false,
     winner: null,
     activePlayer: null
@@ -53,59 +51,47 @@ this.afs.collection('game').doc(`${gameId}`).set({
 
 // Players set ships
 
-// Start Game -- Game starts with player one
-startGame(gameId) {
+submitBoard(board, player, gameId) {
+  // Who's board it is, what the board is, set shipsLocked to true, if BOTH ships are locked set boardReady to true
   this.afs.collection('game').doc(`${gameId}`).update({
     player1: {
-      boardStatus: {},
-      userId: this.userId,
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: true
+      boardStatus: {},  // if it's player 1
+      // userId: this.userId,
+      // shipsLocked: true,
+      // shipsLeft: [],
+      playerReady: true, // this one???
     },
     player2: {
-      boardStatus:{},
+      boardStatus:{}, // if it's player 2
       userId: this.userId, 
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: false
+      // shipsLocked: true,
+      // shipsLeft: [],
+      playerReady: true, // this one??
     },
-    gameId: this.gameId,
-    boardReady: true,
-    gameOver: false,
-    winner: null,
-  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
+    // gameId: this.gameId,
+    // boardReady: true,
+    // gameOver: false,
+    // winner: null,
+  })
+    
+  }
+
+
+guessShot(col, row, player, boardStatus) {
+// where and who
+
+// compare shot to the other's board
+
+  // update the other's board accordingly
+
+
+// if it's a hit, is that ship sunk?
+
+  // If it is sunk, update shipsLeft 
+    // If there aren't any check for winner
+
 }
 
-// UpdateGame 
-updateGame(gameId) {
-  this.afs.collection('game').doc(`${gameId}`).update({
-    player1: {
-      boardStatus: {},
-      userId: this.userId,
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: false
-    },
-    player2: {
-      boardStatus:{},
-      userId: this.userId, 
-      shipsLocked: true,
-      shipsLeft: [],
-      playerReady: true,
-      activePlayer: true
-    },
-    gameId: this.gameId,
-    boardReady: true,
-    gameOver: false,
-    winner: null,
-  }).then(res => this.router.navigate([`/game/${this.gameId}`]))
+gameOver(col, row) {
 }
-
-// Ships left and what type
-
-
 }
