@@ -14,7 +14,7 @@ const redirectLoggedInToHome = () => redirectLoggedInTo(['/']);
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin }}, 
   {path: 'login', component: LoginComponent, canActivate:[AngularFireAuthGuard], data: { authGuardPipe: redirectLoggedInToHome }},
-  {path: 'game/:gameId', component: GameComponent, canActivate: [JoinGameGuard]},
+  {path: 'game/:gameId', component: GameComponent}, // , canActivate: [JoinGameGuard]
   {path: '**', redirectTo: '/'}
 ];
 
