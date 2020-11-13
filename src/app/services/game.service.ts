@@ -32,7 +32,7 @@ createGame(hostPlayer: string) {
 // Unique Game ID  
 
 this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
-this.afs.collection('game').doc(`${gameId}`).set({
+this.afs.collection('game').doc(`${this.gameId}`).set({
     player1: {
       boardStatus: {},
       userId: this.userId,

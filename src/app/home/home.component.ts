@@ -12,6 +12,8 @@ export class HomeComponent implements OnInit {
   gameId: string;
   userId: string = "";
   uid: string;
+  gameCode: string;
+  
 
   navGame(){
     this.gameService.navGame(this.gameId)
