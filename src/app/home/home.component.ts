@@ -2,27 +2,28 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GameService } from '../services/game.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  roomCode: string;
-  displayName: string = '';
-  
+  gameId: string;
+  userId: string = "";
+  uid: string;
 
-    navGame(){
-   // this.gameService.navGame(this.roomCode)
-    }
+    //navGame(){
+    //this.gameService.navGame(this.gameId)
+    //}
 
-  constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, ) { }
+  constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }
 
 
 
 
   loggedIn(){
-    if(this.displayName){
+    if(this.userId){
       this.router.navigate([`/game:gameId`])
     } else {
       this._snackbar.open("Start New Game", '',{
@@ -32,8 +33,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.auth.user.subscribe(user => this.displayName = user ? user.displayName : '');
+    this.auth.user.subscribe(v => {
+      return this.userId = v ? v.uid : '';
+    });
   }
+  //user ? user.userId 
   logout() {
     this.auth.signOut().then(() => { });
   }
