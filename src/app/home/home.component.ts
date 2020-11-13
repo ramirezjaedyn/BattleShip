@@ -15,8 +15,8 @@ export class HomeComponent implements OnInit {
   gameCode: string;
   
 
-  navGame(){
-    // this.gameService.navGame(this.gameId)
+  joinGame(){
+    this.gameService.joinGame(this.gameId)
   }
 
   constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }

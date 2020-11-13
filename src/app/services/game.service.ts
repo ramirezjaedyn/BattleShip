@@ -8,7 +8,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   providedIn: 'root'
 })
 export class GameService {
-  // db = this.afs.collection('game')
+  db = this.afs.collection('game')
   userId: string = "";
   gameId: string;
   boardReady: boolean = true;
@@ -21,10 +21,6 @@ export class GameService {
     });
   
   }
-
-navGame(gameId: string) {
-  this.router.navigate([`/game/${gameId}`])
-}
 
 createGame(){
   this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
@@ -45,11 +41,24 @@ createGame(){
 
 
  joinGame(gameId: string){
-  // Does that game exist?? 
+    console.log(`The game ID being passed in from home comp: ${gameId}`)
+    let docRef = this.afs.collection('game').doc(`${gameId}`)
+    // Does that game exist??
+    docRef.get().toPromise().then(doc => {
+      if (doc.exists) {
+          console.log("Document data:", doc.data());
+      } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
     // YES - Is there an inactive player?
       // YES - GTFO
       // NO  - set inactive player, set this.gameId subscribe to that doc
       // NO - Show error
+    this.router.navigate([`/game/${gameId}`])
  }
 
 
