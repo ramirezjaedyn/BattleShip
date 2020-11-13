@@ -16,7 +16,7 @@ export class JoinGameGuard implements CanActivate {
       return this.afs.collection('game').doc(`${next.params.gameId}`).valueChanges().pipe(
         map(game => {
           if(game){
-            if (game['player1']['userId'] && !game['player2']['userId'])
+            if (game['activePlayer'] && !game['inactivePlayer'])
             {return true}
           }
           this.snackBar.open("A game with this ID does not exist or the room is full. Try again.", null, {
