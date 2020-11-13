@@ -22,7 +22,7 @@ export class GameService {
 
   }
  createGame(){
-  this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
+  this.gameId = Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
   this.afs.collection('game').doc(`${this.gameId}`).set({
     gameId: this.gameId,
     gameOver: false,
@@ -40,17 +40,18 @@ export class GameService {
 
  joinGame(gameId: string){
   // Does that game exist??
-  this.afs.firestore.doc(`${this.gameId}`).get()
-    .then(docSnapshot => {
-      if(docSnapshot.exists){
+  // this.afs.firestore.doc(`${this.gameId}`).get() // doc won't work syntax change
+    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((data : any) => {
+      if(res){
         // YES - Is there an inactive player?
-        let gameData = docSnapshot.data();
+        // let data = a.payload.doc.data();
+        let gameData = res.data;
+        // YES - GTFO
+        // pop up an error
         if (gameData.inactivePlayer){
-          return true;
-          // YES - GTFO
           console.log("Game is full.")
+          return true;
 
-          // pop up an error
         } else{
           // NO  - set inactive player, set this.gameId subscribe to that doc
           this.afs.doc(`${this.gameId}`).update({
@@ -62,6 +63,7 @@ export class GameService {
 
       }
     });
+  })
  }
 
 
