@@ -13,18 +13,16 @@ export class HomeComponent implements OnInit {
   userId: string = "";
   uid: string;
 
-    //navGame(){
-    //this.gameService.navGame(this.gameId)
-    //}
+  navGame(){
+    this.gameService.navGame(this.gameId)
+  }
 
   constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }
 
-
-
-
   loggedIn(){
+    console.log(`user id from loggedIn(): ${this.userId}`)
     if(this.userId){
-      this.router.navigate([`/game:gameId`])
+      this.gameService.createGame(this.userId);
     } else {
       this._snackbar.open("Start New Game", '',{
         duration: 3000,
