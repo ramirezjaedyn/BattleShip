@@ -5,8 +5,8 @@
   <div class="content">
     <form class="example-form">
       <mat-form-field class="w-100">
-        <mat-label>Enter Game URL</mat-label>
-        <input matInput type='text' name="room code" ><!--[(ngModel)]='roomCode'>-->
+        <mat-label>Enter Game Code</mat-label>
+        <input matInput type='text' name="room code" [(ngModel)]='gameCode'>
       </mat-form-field>
       <button mat-raised-button class="w-100" color="primary" (click)='navGame()'>Join Game</button>
     </form>
