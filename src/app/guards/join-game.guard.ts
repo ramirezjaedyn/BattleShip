@@ -13,12 +13,10 @@ export class JoinGameGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):Observable<boolean> {
-      
       return this.afs.collection('game').doc(`${next.params.gameId}`).valueChanges().pipe(
         map(game => {
-          
           if(game){
-            if (game['users'].length < 2)
+            if (game['player1']['userId'] && !game['player2']['userId'])
             {return true}
           }
           this.snackBar.open("A game with this ID does not exist or the room is full. Try again.", null, {
