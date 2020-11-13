@@ -59,10 +59,10 @@ export class GameService {
             this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
           )
         }
+
       }
     });
  }
-
 
 
 
