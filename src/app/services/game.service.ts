@@ -34,6 +34,8 @@ export class GameService {
     boards: {}
   })
   // subscribe to that doc
+  this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
+  
   // navigate them to that page
   
  }
@@ -50,6 +52,14 @@ export class GameService {
 
  submitBoard(board){
    // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
+   let newBoards = {...this.gameInfo.boards};
+   newBoards[this.userId] = board;  // links specific board info to userId
+   if(this.gameInfo.numLocked == 1){
+    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 2, gameReady: true});  
+   }
+   else{
+    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 1});
+   }
  }
 
 
