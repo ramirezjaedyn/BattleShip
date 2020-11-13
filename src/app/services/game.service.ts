@@ -35,6 +35,8 @@ createGame(){
     boards: {}
   })
   // subscribe to that doc
+  this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
+  
   // navigate them to that page
   
  }
@@ -64,12 +66,54 @@ createGame(){
 
  submitBoard(board){
    // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
+   let newBoards = {...this.gameInfo.boards};
+   newBoards[this.userId] = board;  // links specific board info to userId
+   if(this.gameInfo.numLocked == 1){
+    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 2, gameReady: true});  
+   }
+   else{
+    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 1});
+   }
  }
 
 
  guessShot(col: number, row: number){
-    // I'm active 1234
-    // Inactive is 5678
+    // shooter's userId
+    let shooter = this.gameInfo.activePlayer;
+    // victim's userId
+    let victim = this.gameInfo.inactivePlayer;
+    // If it is the proper user's turn and they clicked...
+    if (this.userId === shooter) {
+      console.log("Shooter shot");
+      let boards = {...this.gameInfo.boards};
+      let victimBoardCoord = boards[victim][col][row]; 
+      // Invalid location clicked
+      if (victimBoardCoord === 2 || victimBoardCoord === 3 || victimBoardCoord === 4) {
+        console.log("You've already clicked there in a past turn, try again");
+      }
+      // Clicked on an empty spot
+      if (victimBoardCoord === 0) {
+        console.log("You missed!");
+        boards[victim][col][row] = 2; // changes value to "missed" 
+        // Swap player statuses
+        this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
+          boards: boards}); 
+      } 
+      // Clicked on an untouched spot
+      if (victimBoardCoord === 1) {
+        console.log("Enemy hit!");
+        boards[victim][col][row] = 3; // changes value to "hit" 
+        // RUN FUNC TO CHECK IF GAME OVER (any 1's left on the victim's board)
+        // Swap player statuses and update DB boards
+        this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
+          boards: boards}); 
+      }
+    }
+    else {
+      console.log("It isn't your turn to shoot");
+    }
+    
+    
     // I take a shot it says ok who's inactive
     // Check game.boards.5678 at some coordinates []
     // Let's say I shot A5 (0, 4)
