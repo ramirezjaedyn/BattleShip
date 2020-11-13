@@ -93,5 +93,5 @@ guessShot(col, row, player, boardStatus) {
 }
 
 gameOver(col, row) {
-
-}}
+}
+}

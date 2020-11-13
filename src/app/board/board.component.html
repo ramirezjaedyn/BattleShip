@@ -1,1 +1,58 @@
-<p>board works!</p>
+<table>
+    <tr>
+        <th></th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+        <th>5</th>
+        <th>6</th>
+        <th>7</th>
+        <th>8</th>
+        <th>9</th>
+        <th>10</th>
+    </tr>
+    <tr *ngFor="let row of objectKeys(boardStatus)">
+        <th>{{rows[row] | uppercase}}</th>
+        <!-- OPPONENT'S BOARD -->
+        <ng-container *ngIf="!isUserBoard">
+            <td *ngFor="let col of boardStatus[row]; let i = index" (click)="guessShot(row, i)"
+                [ngClass]="'cell-'+ col"> </td>
+        </ng-container>
+        <!-- USER'S BOARD -->
+        <ng-container *ngIf="isUserBoard">
+            <td *ngFor="let col of boardStatus[row]; let i = index"
+                (mouseenter)="shipsRemaining.length > 0 && shipPlacement(row, i, false)"
+                (click)="shipsRemaining.length > 0 && shipPlacement(row, i, true)" [ngClass]="'cell-'+ col"> </td>
+        </ng-container>
+    </tr>
+</table>
+
+<!-- OPPONENT'S BOARD -->
+<!-- ADD BACK DURING MMP WHEN SHOWING ENEMY SHIPS REMAINING
+<div class="ship-info-container" *ngIf="!isUserBoard">
+    <h3>Opponent's Ships Remaining:</h3>
+    <div *ngFor="let ship of shipsRemaining">
+        <div>{{ ship.name | titlecase}}</div>
+    </div>
+</div>
+ -->
+
+
+<!-- USER'S BOARD -->
+<div class="ship-info-container relative margin-auto" *ngIf="isUserBoard && shipsRemaining.length !== 0">
+    <h3 >Your Ships Remaining:</h3>
+    <div *ngFor="let ship of shipsRemaining; let i = index">
+        <!--   [style.fontWeight]="fontStyle" IF WE ADD BOLD TO THE CURRENT SHIP-->
+        <!--  #fontStyle [style.fontWeight]="makeBold(fontStyle)" -->
+        <!-- [ngStyle]="{ 'fontWeight: bold' }" -->
+        <div [style.fontWeight]="checkIfFirst(i)"> {{ ship.name | titlecase}} ({{ship.length}})</div>
+    </div>
+    <!-- Horiz/Vert Ship Placement Options -->
+    <div>
+        <mat-radio-group [(ngModel)]="isVertical" aria-label="User Ship Placement:">
+            <mat-radio-button value="false">Horizontal</mat-radio-button>
+            <mat-radio-button value="true">Vertical</mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
