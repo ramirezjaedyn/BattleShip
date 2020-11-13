@@ -22,9 +22,15 @@ export class GameService {
   }
  
 
+navGame(gameId: string) {
+  // TODO: Needs to be implemented
+  this.router.navigate([`/game/${gameId}`])
+}
+
 // Create Game
-createGame(gameId) {
+createGame(hostPlayer: string) {
 // Unique Game ID  
+
 this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
 this.afs.collection('game').doc(`${gameId}`).set({
     player1: {
@@ -49,7 +55,9 @@ this.afs.collection('game').doc(`${gameId}`).set({
 }
 
 
-// Players set ships
+
+  // Players set ships
+
 
 submitBoard(board, player, gameId) {
   // Who's board it is, what the board is, set shipsLocked to true, if BOTH ships are locked set boardReady to true
