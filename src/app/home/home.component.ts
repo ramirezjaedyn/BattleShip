@@ -16,7 +16,15 @@ export class HomeComponent implements OnInit {
   
 
   joinGame(){
-    this.gameService.joinGame(this.gameId)
+    var didJoinGame = this.gameService.joinGame(this.gameId)
+    console.log(`did I join game ${didJoinGame}`, didJoinGame)
+    if (didJoinGame) {
+      this.router.navigate([`/game/${this.gameId}`])
+    } else {
+      this._snackbar.open("Could not join game. Try another game", '',{
+        duration: 3000,
+      })
+    }
   }
 
   constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }

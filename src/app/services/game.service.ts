@@ -22,59 +22,81 @@ export class GameService {
   
   }
 
-createGame(){
-  this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
-  this.afs.collection('game').doc(`${this.gameId}`).set({
-    gameId: this.gameId,
-    gameOver: false,
-    winner: null,
-    gameReady: false,
-    numLocked: 0,
-    activePlayer: this.userId,
-    inactivePlayer: null,
-    boards: {}
-  })
-  // subscribe to that doc
-  this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
-  
-  // navigate them to that page
-  
- }
+  createGame(){
+    this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
+    this.afs.collection('game').doc(`${this.gameId}`).set({
+      gameId: this.gameId,
+      gameOver: false,
+      winner: null,
+      gameReady: false,
+      numLocked: 0,
+      activePlayer: this.userId,
+      inactivePlayer: null,
+      boards: {}
+    })
+    // subscribe to that doc
+    this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
+
+    // navigate them to that page
+    this.router.navigate([`/game/${this.gameId}`])
+  }
 
 
- joinGame(gameId: string){
+  joinGame(gameId: string) {
     console.log(`The game ID being passed in from home comp: ${gameId}`)
-    let docRef = this.afs.collection('game').doc(`${gameId}`)
+    console.log(`The user who will become the "inactivePlayer": ${this.userId}`)
+    let docRef = this.db.doc(`${gameId}`)
+
     // Does that game exist??
     docRef.get().toPromise().then(doc => {
       if (doc.exists) {
-          console.log("Document data:", doc.data());
+          let inactivePlayer = doc.data()['inactivePlayer'];
+          console.log("Is there some value in the inactivePlayer field?", inactivePlayer);
+          if (inactivePlayer !== null) {
+            // YES - Is there an inactive player?
+            console.log('YES - Is there an a player in the inactivePlayer field')
+            return false;
+          } else {
+            // NO  - set inactive player, set this.gameId subscribe to that doc
+            console.log("Setting canJoin to true")
+            console.log('NO  - set inactive player, set this.gameId subscribe to that doc')
+            docRef.update({inactivePlayer: `${this.userId}`});
+            //docRef.valueChanges().subscribe(val=> this.gameInfo = val);
+            return true;
+          }
       } else {
           // doc.data() will be undefined in this case
+          // NO - Show error
           console.log("No such document!");
       }
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
-    // YES - Is there an inactive player?
-      // YES - GTFO
-      // NO  - set inactive player, set this.gameId subscribe to that doc
-      // NO - Show error
-    this.router.navigate([`/game/${gameId}`])
- }
+
+    docRef.valueChanges().subscribe(val => {this.gameInfo = val; console.log(this.gameInfo, this.gameInfo)});
+    //console.log(this.gameInfo, this.gameInfo['inactivePlayer'])
+    //let inactivePlayerVal = this.gameInfo.inactivePlayer;
+    //console.log(`What is inactivePlayer value right now!: ${inactivePlayerVal}`)
+    //if (inactivePlayerVal === null) {
+    //  return false;
+    //} else { 
+    //  return true;
+    //}
+    //return false;
+  }
 
 
- submitBoard(board){
-   // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
-   let newBoards = {...this.gameInfo.boards};
-   newBoards[this.userId] = board;  // links specific board info to userId
-   if(this.gameInfo.numLocked == 1){
-    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 2, gameReady: true});  
-   }
-   else{
-    this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 1});
-   }
- }
+  submitBoard(board){
+    // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
+    let newBoards = {...this.gameInfo.boards};
+    newBoards[this.userId] = board;  // links specific board info to userId
+    if(this.gameInfo.numLocked == 1){
+      this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 2, gameReady: true});  
+    }
+    else{
+      this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 1});
+    }
+  }
 
 
  guessShot(col: number, row: number){
