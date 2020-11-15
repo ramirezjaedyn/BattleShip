@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore' 
 import { SocketService } from './socket.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class GameService {
   playerTurn: boolean = true;
   gameInfo: any = null
 
-  constructor(private router: Router, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) { 
+  constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, private socketService: SocketService) { 
     this.auth.user.subscribe(v=> {
       this.userId = v ? v.uid : null;
     });
@@ -43,46 +44,36 @@ export class GameService {
 
 
   joinGame(gameId: string) {
-    console.log(`The game ID being passed in from home comp: ${gameId}`)
-    console.log(`The user who will become the "inactivePlayer": ${this.userId}`)
     let docRef = this.db.doc(`${gameId}`)
-
-    // Does that game exist??
-    docRef.get().toPromise().then(doc => {
+    
+    docRef.get().subscribe(doc => {
       if (doc.exists) {
-          let inactivePlayer = doc.data()['inactivePlayer'];
-          console.log("Is there some value in the inactivePlayer field?", inactivePlayer);
-          if (inactivePlayer !== null) {
-            // YES - Is there an inactive player?
-            console.log('YES - Is there an a player in the inactivePlayer field')
-            return false;
-          } else {
-            // NO  - set inactive player, set this.gameId subscribe to that doc
-            console.log("Setting canJoin to true")
-            console.log('NO  - set inactive player, set this.gameId subscribe to that doc')
-            docRef.update({inactivePlayer: `${this.userId}`});
-            //docRef.valueChanges().subscribe(val=> this.gameInfo = val);
-            return true;
-          }
+        let inactivePlayer = doc.data()['inactivePlayer'];
+        console.log("Is there some value in the inactivePlayer field?", inactivePlayer);
+        if (!inactivePlayer) {
+          console.log('YES - Is there an a player in the inactivePlayer field')
+          console.log("Setting canJoin to true")
+          console.log('NO  - set inactive player, set this.gameId subscribe to that doc')
+          docRef.update({inactivePlayer: `${this.userId}`}).then(() => {
+              console.log("Update did finish")
+              this.router.navigate([`/game/${gameId}`])
+            }
+          );
+        } else {
+          this.snackBar.open("The game room is full. Try again.", null, {
+            duration: 5000,
+          })
+        }
       } else {
-          // doc.data() will be undefined in this case
-          // NO - Show error
-          console.log("No such document!");
+        console.log("No such document!");
+        this.snackBar.open("A game with this ID does not exist. Try again.", null, {
+          duration: 5000,
+        })
       }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
+    })
 
-    docRef.valueChanges().subscribe(val => {this.gameInfo = val; console.log(this.gameInfo, this.gameInfo)});
-    //console.log(this.gameInfo, this.gameInfo['inactivePlayer'])
-    //let inactivePlayerVal = this.gameInfo.inactivePlayer;
-    //console.log(`What is inactivePlayer value right now!: ${inactivePlayerVal}`)
-    //if (inactivePlayerVal === null) {
-    //  return false;
-    //} else { 
-    //  return true;
-    //}
-    //return false;
+    this.afs.collection('game').doc(`${gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
+    //this.router.navigate([`/game/${this.gameId}`])
   }
 
 

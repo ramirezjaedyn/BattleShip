@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore' 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,20 +15,17 @@ export class HomeComponent implements OnInit {
   uid: string;
   gameCode: string;
   
+  constructor(
+    private afs: AngularFirestore,
+    private auth: AngularFireAuth, 
+    private router: Router, 
+    private _snackbar: MatSnackBar, 
+    private gameService: GameService){ }
+
 
   joinGame(){
-    var didJoinGame = this.gameService.joinGame(this.gameId)
-    console.log(`did I join game ${didJoinGame}`, didJoinGame)
-    if (didJoinGame) {
-      this.router.navigate([`/game/${this.gameId}`])
-    } else {
-      this._snackbar.open("Could not join game. Try another game", '',{
-        duration: 3000,
-      })
-    }
+    this.gameService.joinGame(this.gameId);
   }
-
-  constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }
 
   loggedIn(){
     console.log(`user id from loggedIn(): ${this.userId}`)
