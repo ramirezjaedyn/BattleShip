@@ -23,10 +23,6 @@ export class HomeComponent implements OnInit {
     private gameService: GameService){ }
 
 
-  joinGame(){
-    this.gameService.joinGame(this.gameId);
-  }
-
   loggedIn(){
     console.log(`user id from loggedIn(): ${this.userId}`)
     if(this.userId){
@@ -46,6 +42,11 @@ export class HomeComponent implements OnInit {
   //user ? user.userId 
   logout() {
     this.auth.signOut().then(() => { });
+  }
+
+  joinGame() {
+    this.gameService.joinGame(this.gameId);
+    this.router.navigate([`/game/${this.gameId}`]);
   }
     
 }

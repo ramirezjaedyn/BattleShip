@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore' 
+import { AngularFirestore } from '@angular/fire/firestore'
 import { SocketService } from './socket.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,65 +18,59 @@ export class GameService {
   gameInfo: any = null
 
   constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, private socketService: SocketService) { 
+
     this.auth.user.subscribe(v=> {
       this.userId = v ? v.uid : null;
     });
-  
+
   }
 
-  createGame(){
-    this.gameId =  Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
-    this.afs.collection('game').doc(`${this.gameId}`).set({
-      gameId: this.gameId,
-      gameOver: false,
-      winner: null,
-      gameReady: false,
-      numLocked: 0,
-      activePlayer: this.userId,
-      inactivePlayer: null,
-      boards: {}
-    })
+ createGame(){
+  this.gameId = Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8);
+  this.afs.collection('game').doc(`${this.gameId}`).set({
+    gameId: this.gameId,
+    gameOver: false,
+    winner: null,
+    gameReady: false,
+    numLocked: 0,
+    activePlayer: this.userId,
+    inactivePlayer: null,
+    boards: {}
     // subscribe to that doc
-    this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
-
-    // navigate them to that page
-    this.router.navigate([`/game/${this.gameId}`])
+  // navigate them to that page
+  }).then(res =>  this.router.navigate([`/game/${this.gameId}`]) )
+  this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
   }
 
 
-  joinGame(gameId: string) {
-    let docRef = this.db.doc(`${gameId}`)
-    
-    docRef.get().subscribe(doc => {
-      if (doc.exists) {
-        let inactivePlayer = doc.data()['inactivePlayer'];
-        console.log("Is there some value in the inactivePlayer field?", inactivePlayer);
-        if (!inactivePlayer) {
-          console.log('YES - Is there an a player in the inactivePlayer field')
-          console.log("Setting canJoin to true")
-          console.log('NO  - set inactive player, set this.gameId subscribe to that doc')
-          docRef.update({inactivePlayer: `${this.userId}`}).then(() => {
-              console.log("Update did finish")
-              this.router.navigate([`/game/${gameId}`])
-            }
-          );
-        } else {
-          this.snackBar.open("The game room is full. Try again.", null, {
-            duration: 5000,
-          })
+ joinGame(gameId: string){
+  // Does that game exist??
+  // this.afs.firestore.doc(`${this.gameId}`).get() // doc won't work syntax change
+    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res : any) => {
+      let gameData = res.payload.data();
+      if(gameData){
+        // YES - Is there an inactive player?
+        // let data = a.payload.doc.data();
+        let gameData = res.data;
+        // YES - GTFO
+        // pop up an error
+        if (gameData.inactivePlayer){
+          console.log("Game is full.")
+          return true;
+
+        } else{
+          // NO  - set inactive player, set this.gameId subscribe to that doc
+          this.afs.doc(`${this.gameId}`).update({
+            inactivePlayer : this.userId,
+          }).then(val=>
+            this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
+          )
         }
-      } else {
-        console.log("No such document!");
-        this.snackBar.open("A game with this ID does not exist. Try again.", null, {
-          duration: 5000,
-        })
+
       }
-    })
-
-    this.afs.collection('game').doc(`${gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
-    //this.router.navigate([`/game/${this.gameId}`])
-  }
-
+    });
+  
+ }
 
   submitBoard(board){
     // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
@@ -134,6 +128,7 @@ export class GameService {
     else {
       console.log("It isn't your turn to shoot");
     }
+
  }
 
 
