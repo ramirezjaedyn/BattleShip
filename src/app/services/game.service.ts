@@ -124,6 +124,7 @@ export class GameService {
           console.log("GAME IS OVER"); 
           // Update firestore
           this.afs.collection('game').doc(`${this.gameId}`).update({gameOver: true, winner: shooter}); 
+          this.showWinner(shooter)
         }
         // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
@@ -136,15 +137,10 @@ export class GameService {
  }
 
 
- showWinner(){
-   // NYI
- }
+ showWinner(user) {
+    console.log(`${user} wins`)
+  }
 
- /**
-  * Checks if any 1's are still on the board. If not, the game would be over
-  * @param board player Board object
-  * @returns boolean
-  */
  checkIfGameOver(board: Board): boolean{
   // Iterate through the board's keys
   for (const row in board) {
@@ -157,3 +153,4 @@ export class GameService {
   return true;
  }
 }
+
