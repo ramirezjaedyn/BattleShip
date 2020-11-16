@@ -1,17 +1,27 @@
 
-<h1 class="txt-center container">Home</h1>
+<h1 class="txt-center container">Battleship Home Page</h1>
 
 <div class="container">
   <div class="content">
     <form class="example-form">
       <mat-form-field class="w-100">
         <mat-label>Enter Game Code</mat-label>
-        <input matInput type='text' name="room code" [(ngModel)]='gameCode'>
+        <input matInput type='text' name="room code" [(ngModel)]='gameId'>
       </mat-form-field>
-      <button mat-raised-button class="w-100" color="primary" (click)='navGame()'>Join Game</button>
+      <button mat-raised-button class="w-100" color="primary" (click)='joinGame()'>Join Game</button>
     </form>
 
     <p class="txt-center">Not joining an existing game?</p>
     <button (click)="loggedIn()" class="largeButton w-100" mat-raised-button color="primary">Create New Game</button>
+    
+    <!--<app-instructions></app-instructions>-->
+    
+    <div id="game-desc">
+      <h2>To join a game</h2>
+      <p>
+        To join a game you must receive a game code from a player who has created a game and paste it into 
+        the join game input field.
+      </p>
+    </div>
 </div>
 </div>
