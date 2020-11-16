@@ -12,12 +12,6 @@ export class HomeComponent implements OnInit {
   gameId: string;
   userId: string = "";
   uid: string;
-  gameCode: string;
-  
-
-  navGame(){
-    // this.gameService.navGame(this.gameId)
-  }
 
   constructor(private auth: AngularFireAuth, private router: Router, private _snackbar: MatSnackBar, private gameService: GameService) { }
 
@@ -40,6 +34,11 @@ export class HomeComponent implements OnInit {
   //user ? user.userId 
   logout() {
     this.auth.signOut().then(() => { });
+  }
+
+  joinGame() {
+    this.gameService.joinGame(this.gameId);
+    this.router.navigate([`/game/${this.gameId}`]);
   }
     
 }

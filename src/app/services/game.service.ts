@@ -41,8 +41,9 @@ export class GameService {
  joinGame(gameId: string){
   // Does that game exist??
   // this.afs.firestore.doc(`${this.gameId}`).get() // doc won't work syntax change
-    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((data : any) => {
-      if(res){
+    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res : any) => {
+      let gameData = res.payload.data();
+      if(gameData){
         // YES - Is there an inactive player?
         // let data = a.payload.doc.data();
         let gameData = res.data;
@@ -63,7 +64,7 @@ export class GameService {
 
       }
     });
-  })
+  
  }
 
 
