@@ -118,7 +118,7 @@ export class GameService {
           console.log("GAME IS OVER"); 
           // Update firestore
           this.afs.collection('game').doc(`${this.gameId}`).update({gameOver: true, winner: shooter}); 
-          this.showWinner(shooter)
+          this.showWinner(shooter, victim);
         }
         // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({activePlayer: victim, inactivePlayer: shooter, 
@@ -132,8 +132,9 @@ export class GameService {
  }
 
 
- showWinner(user) {
-    console.log(`${user} wins`)
+ showWinner(winner, loser) {
+    // since it is using the userId's it will be a bit unreadable... 
+    console.log(`${winner} wins, ${loser} loses!`);
   }
 
  checkIfGameOver(board: Board): boolean{
