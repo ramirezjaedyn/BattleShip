@@ -17,13 +17,13 @@
         <!-- OPPONENT'S BOARD -->
         <ng-container *ngIf="!isUserBoard">
             <td *ngFor="let col of boardStatus[row]; let i = index" (click)="guessShot(row, i)"
-                [ngClass]="'cell-'+ col"> </td>
+                [ngClass]="getClass(col)"> </td>
         </ng-container>
         <!-- USER'S BOARD -->
         <ng-container *ngIf="isUserBoard">
             <td *ngFor="let col of boardStatus[row]; let i = index"
                 (mouseenter)="shipsRemaining.length > 0 && shipPlacement(row, i, false)"
-                (click)="shipsRemaining.length > 0 && shipPlacement(row, i, true)" [ngClass]="'cell-'+ col"> </td>
+                (click)="shipsRemaining.length > 0 && shipPlacement(row, i, true)" [ngClass]="getClass(col)"> </td>
         </ng-container>
     </tr>
 </table>

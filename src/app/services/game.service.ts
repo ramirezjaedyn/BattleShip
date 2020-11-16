@@ -13,12 +13,10 @@ export class GameService {
   db = this.afs.collection('game')
   userId: string = "";
   gameId: string;
-  boardReady: boolean = true;
-  playerTurn: boolean = true;
   gameInfo: any = null
 
   constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, private socketService: SocketService) { 
-
+    // set userId to value provided by Ang Fire Auth
     this.auth.user.subscribe(v=> {
       this.userId = v ? v.uid : null;
     });
@@ -36,48 +34,51 @@ export class GameService {
     activePlayer: this.userId,
     inactivePlayer: null,
     boards: {}
-    // subscribe to that doc
-  // navigate them to that page
-  }).then(res =>  this.router.navigate([`/game/${this.gameId}`]) )
+    
+  // Navigate them to the new game page
+  }).then(res =>  this.router.navigate([`/game/${this.gameId}`]))
+
+  // Subscribe to the document
   this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
   }
 
 
  joinGame(gameId: string){
   // Does that game exist??
-  // this.afs.firestore.doc(`${this.gameId}`).get() // doc won't work syntax change
-    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res : any) => {
-      let gameData = res.payload.data();
-      if(gameData){
-      
-        // YES - GTFO
-        // pop up an error
-        if (gameData.inactivePlayer){
-          console.log("Game is full.")
-          return true;
+  this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res : any) => {
+    let gameData = res.payload.data();
+    if(gameData){
+    
+      // YES - GTFO
+      // pop up an error
+      if (gameData.inactivePlayer){  // THIS SHOULDN'T RUN WHEN THE SECOND PLAYER JOINS, BUT IT DOES DUE TO SNAPSHOTCHANGES()
+        return;
 
-        } else{
-          // NO  - set inactive player, set this.gameId subscribe to that doc
-          this.gameId = gameId;
-          this.afs.collection('game').doc(`${this.gameId}`).update({
-            inactivePlayer : this.userId,
-          }).then(val=>
-            this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
-          )
-        }
-
+      } else{
+        // NO  - set inactive player, set this.gameId subscribe to that doc
+        this.gameId = gameId;
+        this.afs.collection('game').doc(`${this.gameId}`).update({
+          inactivePlayer : this.userId,
+        }).then(val=>
+          this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => {
+            this.gameInfo = data
+            this.router.navigate([`/game/${this.gameId}`]);
+          })
+        )
       }
-    });
-  
+    }
+  });
  }
 
   submitBoard(board){
-    // set appropriate board and increment numLocked by 1, if it's now 2, set gameReady to true
+    // Create and set shallow copy of the boards
     let newBoards = {...this.gameInfo.boards};
     newBoards[this.userId] = board;  // links specific board info to userId
+    // If second user to submit board, will submit board, increase numLocked, and set gameReady to true
     if(this.gameInfo.numLocked == 1){
       this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 2, gameReady: true});  
     }
+    // If first user to submit, it will submit the board and increase the numLocked by one
     else{
       this.afs.collection('game').doc(`${this.gameId}`).update({boards: newBoards, numLocked: 1});
     }
@@ -127,7 +128,6 @@ export class GameService {
     else {
       console.log("It isn't your turn to shoot");
     }
-
  }
 
 

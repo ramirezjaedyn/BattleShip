@@ -25,7 +25,6 @@ export class BoardComponent implements OnInit {
   coords: Array<Array<any>> = []
 
   selectedShip: Ship = this.shipsRemaining[0]; // will be the most recent ship clicked on by the user
-
   objectKeys = Object.keys;
   boardStatus: Board = //isUserBoard ? below : null
     // 0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship
@@ -47,7 +46,7 @@ export class BoardComponent implements OnInit {
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
   boxColor: string; // the color that the boxes will change to on the board
 
-  constructor(private gameService: GameService, private auth: AngularFireAuth, private afs: AngularFirestore) { 
+  constructor(private gameService: GameService, private afs: AngularFirestore) { 
     // isUser ? subscribe to the enemies board replacing 1s with 0s
     //this.oppBoard = gameService.retrieveBoard()
     this.afs.collection('game').doc(`${this.gameService.gameId}`).valueChanges().subscribe((data: any) => {
@@ -56,15 +55,19 @@ export class BoardComponent implements OnInit {
       let boardKeys = this.objectKeys(data.boards);
       let otherUser = boardKeys.filter(v=> v !== this.gameService.userId)[0];
       if(this.isUserBoard && data.boards[this.gameService.userId]){
-        this.boardStatus = data.boards[this.gameService.userId]
+        this.boardStatus = {...data.boards[this.gameService.userId]};
       }
-      else{
-        this.boardStatus = otherUser ? data.boards[otherUser] : this.boardStatus
+      else if(otherUser && !this.isUserBoard){
+        this.boardStatus = {...data.boards[otherUser]};
       }
     }
     })
   }
 
+  getClass(val: number){
+    val = !this.isUserBoard && val === 1 ? 0 : val
+    return `cell-${val}`
+  }
 
   ngOnInit(): void {
   }
@@ -84,7 +87,6 @@ export class BoardComponent implements OnInit {
       }
       else{
         // service function to send ENTIRE board and lock ships
-        console.log(this.boardStatus);
         this.gameService.submitBoard(this.boardStatus);
       }
     }
