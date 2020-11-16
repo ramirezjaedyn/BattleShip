@@ -13,8 +13,6 @@ export class GameService {
   db = this.afs.collection('game')
   userId: string = "";
   gameId: string;
-  boardReady: boolean = true; // DO WE EVEN NEED THIS VAR ANYMORE????
-  playerTurn: boolean = true; // DO WE EVEN NEED THIS VAR ANYMORE????
   gameInfo: any = null
 
   constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, private socketService: SocketService) { 
@@ -54,8 +52,7 @@ export class GameService {
       // YES - GTFO
       // pop up an error
       if (gameData.inactivePlayer){  // THIS SHOULDN'T RUN WHEN THE SECOND PLAYER JOINS, BUT IT DOES DUE TO SNAPSHOTCHANGES()
-        console.log("Game is full.")
-        return true;
+        return;
 
       } else{
         // NO  - set inactive player, set this.gameId subscribe to that doc
@@ -63,7 +60,10 @@ export class GameService {
         this.afs.collection('game').doc(`${this.gameId}`).update({
           inactivePlayer : this.userId,
         }).then(val=>
-          this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
+          this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => {
+            this.gameInfo = data
+            this.router.navigate([`/game/${this.gameId}`]);
+          })
         )
       }
     }

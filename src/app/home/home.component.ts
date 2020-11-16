@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
 
   joinGame() {
     this.gameService.joinGame(this.gameId);
-    this.router.navigate([`/game/${this.gameId}`]);
   }
     
 }
