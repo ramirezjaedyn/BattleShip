@@ -1,8 +1,18 @@
+.buttonStyle {
+  width: 250px; 
+  display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 10px auto;
+    font-family: impact;
+  
+}
+
 .container{
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    margin: 10px auto;
+    margin: 20px auto;
   }
   
   .largeBtn{
@@ -21,7 +31,7 @@
     /*height: 245px;*/
     margin-top: 10px;
     border: 3px solid #353535;
-    background-color: #c7c0c0;
+    background-color: #C0C0C4;
     padding: 0px 5px;
     border-radius: 10px;
     justify-content: center !important;
@@ -29,10 +39,14 @@
   
   .txt-center {
     text-align: center;
+    font-family: impact;
   }
   
   p {
     margin-top: 50px;
+    padding: 5px;
+ 
+     
   }
 
   #game-desc {
@@ -40,6 +54,6 @@
   }
 
   #game-desc p {
-    margin-top: 20px
+    margin-top: 1px
   }
   
