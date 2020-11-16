@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
   }
   //user ? user.userId 
   logout() {
-    this.auth.signOut().then(() => { });
+    this.auth.signOut();
   }
 
   joinGame() {
