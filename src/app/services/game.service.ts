@@ -49,9 +49,7 @@ export class GameService {
     this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res : any) => {
       let gameData = res.payload.data();
       if(gameData){
-        // YES - Is there an inactive player?
-        // let data = a.payload.doc.data();
-        let gameData = res.data;
+      
         // YES - GTFO
         // pop up an error
         if (gameData.inactivePlayer){
@@ -60,7 +58,8 @@ export class GameService {
 
         } else{
           // NO  - set inactive player, set this.gameId subscribe to that doc
-          this.afs.doc(`${this.gameId}`).update({
+          this.gameId = gameId;
+          this.afs.collection('game').doc(`${this.gameId}`).update({
             inactivePlayer : this.userId,
           }).then(val=>
             this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => this.gameInfo = data)
