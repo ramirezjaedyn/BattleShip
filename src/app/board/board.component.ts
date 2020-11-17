@@ -47,8 +47,7 @@ export class BoardComponent implements OnInit {
   boxColor: string; // the color that the boxes will change to on the board
 
   constructor(private gameService: GameService, private afs: AngularFirestore) { 
-    // isUser ? subscribe to the enemies board replacing 1s with 0s
-    //this.oppBoard = gameService.retrieveBoard()
+    // Subscribe to game data from AFS
     this.afs.collection('game').doc(`${this.gameService.gameId}`).valueChanges().subscribe((data: any) => {
      // If it's the user's board, subscribe to the user's board, otherwise subscribe to the other board
      if(data && data.boards){
@@ -98,10 +97,13 @@ export class BoardComponent implements OnInit {
       this.coords = []
       // Horizontal ships
       if (this.isVertical == 'false') {
+        // Iterate across the columns in the same row
         for (let i = col; i < col+this.selectedShip.length; i++) {
+          // If it is a valid spot on the board, add it to the coords array
           if(this.boardStatus[row][i] === 0 || this.boardStatus[row][i] === 5){
             this.coords.push([row, i])
           }
+          // If not a valid spot on the board, reset the coord array and break
           else{
             this.coords = []
             break;
@@ -111,16 +113,18 @@ export class BoardComponent implements OnInit {
       }
       // Vertical ships
       else{
+        // Iterate down the rows within the same column
         for (let i = parseInt(row); i < (parseInt(row) + this.selectedShip.length); i++) {
+          // If the coord is on the board and not an untouched ship, add it to the coords array
           if( i <= 9 && (this.boardStatus[i][col] === 0 || this.boardStatus[i][col] === 5)){
             this.coords.push([i, col])
           }
+          // If not a valid spot, reset coord array and break
           else{
             this.coords = [];
             break;
           }
         }
-
       }
       // If there is a valid spot in the projected ship placement & the user clicks on the spot, let them place it
       if (this.coords.length !== 0 && set) {
@@ -152,20 +156,4 @@ export class BoardComponent implements OnInit {
     return "normal"
   }
 
-  }
-
-
-// Start off hardcoded local board (or subscribed if it's the non user board)
-
-// Hover and see ship placement (done)
-
-// Place a ship (done)
-
-// Lock ships
-  // Send entire board to firebase
-  // Subscribe to the user's board in firebase
-
-// Guess a shot
-  // Function that checks 
-
-// Update the board
+}
