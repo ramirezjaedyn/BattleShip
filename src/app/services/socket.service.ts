@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { GameService } from '../services/game.service';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
