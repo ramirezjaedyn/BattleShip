@@ -1,8 +1,10 @@
 <div #output class='output-box'>
     <div *ngFor = "let m of messages">
-      <span class="displayName"> {{m.msg.displayName}} </span>- {{m.msg.body}}
+      <span class="displayName"> {{m.msg.displayName}} </span>
+      <span class="body"> {{m.msg.body}} </span>
     </div>
   </div>
+  
   
   <div class="chat-input">
     <mat-form-field class="input-box">
