@@ -6,5 +6,5 @@
       
     </button>
     <span style="flex: 1 1 auto;"></span>
-    <button mat-button (click)="logout()" routerLink="home">Logout</button>
-  </mat-toolbar>
+    <button mat-button (click)="logout()" routerLink="home" *ngIf="(user | async)?.uid && router.location != '/login'">Logout</button>
+</mat-toolbar>

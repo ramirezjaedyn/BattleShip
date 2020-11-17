@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore' 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +15,6 @@ export class HomeComponent implements OnInit {
   gameCode: string;
   
   constructor(
-    private afs: AngularFirestore,
     private auth: AngularFireAuth, 
     private router: Router, 
     private _snackbar: MatSnackBar, 
