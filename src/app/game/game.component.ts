@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -13,25 +14,10 @@ export class GameComponent implements OnInit {
   // Check for who the logged in user is
   userId: string;
   gameInfo: any = null; // houses game data
-  playersTurn: string = "";
 
-  constructor(private afs: AngularFirestore, private gameService: GameService, private auth: AngularFireAuth) {
-    this.gameInfo = this.gameService.gameInfo;
-    this.playersTurn = this.gameInfo.activePlayer ;
-    
-    this.auth.user.subscribe(v=> {
-      this.userId = v ? v.uid : null;
-      if (this.userId == null){
-        this.playersTurn= "Waiting for game to be ready..."
-      }
-      else if (this.userId === this.playersTurn) {
-        this.playersTurn = "User"
-      }
-      else {
-        this.playersTurn = "Opponent"
-      }
-    });
-
+  constructor(private afs: AngularFirestore, private gameService: GameService, private auth: AngularFireAuth, private actr: ActivatedRoute) {
+    this.afs.collection('game').doc(`${this.actr.snapshot.params.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val ?  val: null);
+    this.auth.user.subscribe(v=> this.userId = v ? v.uid : null);
    }
 
 
@@ -39,3 +25,4 @@ export class GameComponent implements OnInit {
   }
 
 }
+
