@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { GameService } from 'battleship-c5/src/app/services/game.service';
+import { GameService } from '../services/game.service';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
@@ -30,7 +30,8 @@ export class SocketService {
       })
     })
   }
-  public get chatMessage$() {
+
+  public get chatMessages$() {
     return Observable.create((observer) => {
       this.socket.on('newMessage', (message) => {
         observer.next(message);

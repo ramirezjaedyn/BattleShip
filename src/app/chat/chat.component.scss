@@ -1,0 +1,29 @@
+.output-box{
+    width: 245px;
+    height: 425px;
+    margin: 10px auto;
+    // border: 2px solid #353535;
+    // background-color: #4b4b4b;
+    overflow-y: scroll;
+    word-break: break-word;
+    padding: 0px 5px;
+    border-radius: 10px;
+}
+.input-box{
+    width: 60%;
+    margin: 10px auto;
+    height: 80px;
+}
+
+.chat-input{
+    margin: auto;
+    text-align: center;
+}
+
+.displayName{
+    font-weight: bold;
+    // color: ;
+}
+span {
+    margin-top: 5px;
+}
