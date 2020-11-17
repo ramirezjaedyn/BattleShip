@@ -7,7 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  constructor(private afAuth: AngularFireAuth, private router: Router) { }
+  user;
+  currentLoc;
+  constructor(private afAuth: AngularFireAuth, private router: Router) { 
+    this.user = this.afAuth.authState;
+    this.currentLoc = router.url;
+  }
 
   logout() {
     this.afAuth.signOut().then(() => {
@@ -16,6 +21,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
 }

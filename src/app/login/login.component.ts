@@ -22,8 +22,4 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home'])
     });
   }
-  logout() {
-    this.auth.signOut().then(() => { });
-  }
-  
 }
