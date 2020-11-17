@@ -32,7 +32,7 @@ export class SocketService {
   }
 
   public get chatMessages$() {
-    return Observable.create((observer) => {
+    return new Observable((observer) => {
       this.socket.on('newMessage', (message) => {
         observer.next(message);
       })
