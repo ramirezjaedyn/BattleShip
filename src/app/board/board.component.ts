@@ -63,12 +63,12 @@ export class BoardComponent implements OnInit {
     })
   }
 
+  ngOnInit(): void { }
+
+  // Will change styling class to show a user's board normally, but hide an enemies ships
   getClass(val: number){
     val = !this.isUserBoard && val === 1 ? 0 : val
     return `cell-${val}`
-  }
-
-  ngOnInit(): void {
   }
 
   markCoords(val){
@@ -90,7 +90,14 @@ export class BoardComponent implements OnInit {
       }
     }
   }
-
+  
+  /**
+   * As mouse hovers on a user's own board when placing ships, if it is a valid spot, the entire shadow of the ship will display.
+   * If user decides to 'click' and place ship, set turns "true", and alters the board values to place that ship.
+   * @param row number value 0-9 (x-axis)
+   * @param col number value 0-9 (y-axis)
+   * @param set boolean, will be true when user clicks spot. Defaults as false.
+   */
   shipPlacement(row, col, set) {
     this.markCoords(0)
     if (this.boardStatus[row][col] === 0 || this.boardStatus[row][col] === 5) {
@@ -129,7 +136,7 @@ export class BoardComponent implements OnInit {
       // If there is a valid spot in the projected ship placement & the user clicks on the spot, let them place it
       if (this.coords.length !== 0 && set) {
         this.markCoords(1);
-        // could add functionality that takes those coordinates and adds them to a 'shipsPlaced' array (MMP)
+        // SHIPSPLACED ARRAY COULD BE ADDED HERE TO TRACK SPECIFIC SHIPS SUNK (MMP)
       }
       else {
         this.markCoords(5);
@@ -140,7 +147,6 @@ export class BoardComponent implements OnInit {
   guessShot(col, row) {
     console.log("player guessed shot");
     this.gameService.guessShot(col, row);
-    
   }
 
   /**
