@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Board } from '../interfaces/board.interface';
 import { Ship } from '../interfaces/ship.interface';
 import { GameService } from '../services/game.service';
@@ -24,7 +25,6 @@ export class BoardComponent implements OnInit {
   coords: Array<Array<any>> = []
 
   selectedShip: Ship = this.shipsRemaining[0]; // will be the most recent ship clicked on by the user
-
   objectKeys = Object.keys;
   boardStatus: Board = //isUserBoard ? below : null
     // 0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship
@@ -46,13 +46,28 @@ export class BoardComponent implements OnInit {
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
   boxColor: string; // the color that the boxes will change to on the board
 
-  oppBoard: Board;
-
-  constructor(private gameService: GameService, private auth: AngularFireAuth) { 
+  constructor(private gameService: GameService, private afs: AngularFirestore) { 
     // isUser ? subscribe to the enemies board replacing 1s with 0s
     //this.oppBoard = gameService.retrieveBoard()
+    this.afs.collection('game').doc(`${this.gameService.gameId}`).valueChanges().subscribe((data: any) => {
+     // If it's the user's board, subscribe to the user's board, otherwise subscribe to the other board
+     if(data && data.boards){
+      let boardKeys = this.objectKeys(data.boards);
+      let otherUser = boardKeys.filter(v=> v !== this.gameService.userId)[0];
+      if(this.isUserBoard && data.boards[this.gameService.userId]){
+        this.boardStatus = {...data.boards[this.gameService.userId]};
+      }
+      else if(otherUser && !this.isUserBoard){
+        this.boardStatus = {...data.boards[otherUser]};
+      }
+    }
+    })
   }
 
+  getClass(val: number){
+    val = !this.isUserBoard && val === 1 ? 0 : val
+    return `cell-${val}`
+  }
 
   ngOnInit(): void {
   }
@@ -72,14 +87,10 @@ export class BoardComponent implements OnInit {
       }
       else{
         // service function to send ENTIRE board and lock ships
-        console.log(this.boardStatus);
-        let player: string = "player1";  // DUMMY DATA, DELETE LATER
-        let gameId: string = '123';  // DUMMY DATA, DELETE LATER
         this.gameService.submitBoard(this.boardStatus);
       }
     }
   }
-  
 
   shipPlacement(row, col, set) {
     this.markCoords(0)
@@ -124,7 +135,7 @@ export class BoardComponent implements OnInit {
   }
   guessShot(col, row) {
     console.log("player guessed shot");
-    // this.gameService.guessShot(col, row); ADD LATER WITH SERVICE!!!!!!!!!
+    this.gameService.guessShot(col, row);
     
   }
 
