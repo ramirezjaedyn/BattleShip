@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { GameService } from '../services/game.service';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 
@@ -12,7 +10,7 @@ import * as io from 'socket.io-client';
 export class SocketService {
   socket: any;
   displayName: string;
-  constructor(private afs: AngularFirestore, private router: Router, private gameservice: GameService, private auth: AngularFireAuth) {
+  constructor(private router: Router, private auth: AngularFireAuth) {
 
     this.auth.user.subscribe(v=> {
       this.displayName = v ? v.displayName : null;
@@ -32,7 +30,7 @@ export class SocketService {
   }
 
   public get chatMessages$() {
-    return Observable.create((observer) => {
+    return new Observable((observer) => {
       this.socket.on('newMessage', (message) => {
         observer.next(message);
       })
