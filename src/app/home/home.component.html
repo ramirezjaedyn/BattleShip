@@ -1,30 +1,27 @@
-
 <div class="container">
   <div class="content">
-    <form class="example-form">
-      <mat-form-field class="w-100">
-        <mat-label>Enter Game Code</mat-label>
-        <input matInput type='text' name="room code" [(ngModel)]='gameId'>
-      </mat-form-field>
-      <button mat-raised-button class="w-100" class ="buttonStyle" color="primary" (click)='joinGame()'>Join Game</button>
-    </form>
-
-    <button (click)="loggedIn()" class="largeButton w-100" mat-raised-button class ="buttonStyle" color="primary">Create New Game</button>
+   
     
     <!--<app-instructions></app-instructions>-->
     
     <div id="game-desc">
-      <h2 class="txt-center">To Join A Game</h2>
-      <p>
-        To join a game you must receive a game code from a player who has created a game and paste it into 
-        the game code input field.
-
-
-      </p>
-      <h2 class="txt-center">Create A Game</h2>
+      <h2 class="txt-center"><b>Create A Game</b></h2>
       <p>
         After clicking on create game you will be given a game code. Share your code with a friend so that they can join! 
       </p>
+      
+      <h2 class="txt-center"><b>To Join A Game</b></h2>
+      <p>
+        To join a game you must receive a game code from a player who has created a game and paste it into the input field to join game.
+
+      </p>
+      
     </div>
-</div>
-</div>
+    <button (click)="loggedIn()" class="largeButton w-100" mat-raised-button class ="buttonStyle" color="primary">Create New Game</button>
+    <button mat-raised-button class ="buttonStyle"  (click)='joinGame()'>Join Game</button>
+    <form>
+      <mat-form-field>
+        <mat-label>Enter Game Code</mat-label>
+        <input matInput type='text' name="room code" [(ngModel)]='gameId'>
+      </mat-form-field>
+    </form>
