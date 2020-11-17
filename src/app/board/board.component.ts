@@ -12,7 +12,7 @@ import { GameService } from '../services/game.service';
 })
 export class BoardComponent implements OnInit {
 
-  @Input() isUserBoard: boolean;// tells the component whether it is the user or opponent's board
+  @Input() isUserBoard: boolean; // Tells the component whether it is the user's or opponent's board
 
   // Different ships that the user can place or destroy on the board
   shipsRemaining: Array<Ship> = [
@@ -24,7 +24,7 @@ export class BoardComponent implements OnInit {
 
   coords: Array<Array<any>> = []
 
-  selectedShip: Ship = this.shipsRemaining[0]; // will be the most recent ship clicked on by the user
+  selectedShip: Ship = this.shipsRemaining[0]; // Next ship ready to be placed on user's board
   objectKeys = Object.keys;
   boardStatus: Board = //isUserBoard ? below : null
     // 0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship
@@ -41,10 +41,9 @@ export class BoardComponent implements OnInit {
       9: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
   rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
-  boardValue: number; // number 0-4 that will tell the template which background color to choose
+  boardValue: number; // number 0-4 that corresponds to board data(0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship)
 
   isVertical: string = "false"; // will be used to determine whether a ship is placed horizontal or vertical
-  boxColor: string; // the color that the boxes will change to on the board
 
   constructor(private gameService: GameService, private afs: AngularFirestore) { 
     // Subscribe to game data from AFS
@@ -71,6 +70,10 @@ export class BoardComponent implements OnInit {
     return `cell-${val}`
   }
 
+  /**
+   * Manipulates the board values, and will remove ships from shipsRemaining and/or submit board when all ships are placed
+   * @param val number, board value 0-5
+   */
   markCoords(val){
     this.coords.forEach(c =>{
       this.boardStatus[c[0]][c[1]] = val; 
