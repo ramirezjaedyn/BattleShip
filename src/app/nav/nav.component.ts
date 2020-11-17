@@ -8,8 +8,10 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   user;
+  currentLoc;
   constructor(private afAuth: AngularFireAuth, private router: Router) { 
     this.user = this.afAuth.authState;
+    this.currentLoc = router.url;
   }
 
   logout() {
