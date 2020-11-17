@@ -16,7 +16,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('output') private chatOutput: ElementRef;
   messages: Array<Message> = [];
   messageText: string = '';
-  answer: string = '';
+  displayName = '';
   currentGame: string;
   player: string;
   currentPlayer: string;

@@ -1,14 +1,16 @@
 .output-box{
-    width: 245px;
+    width: 300px;
     height: 425px;
     margin: 10px auto;
-    // border: 2px solid #353535;
-    // background-color: #4b4b4b;
+    border: 2px solid #353535;
+    background-color: white;
     overflow-y: scroll;
     word-break: break-word;
     padding: 0px 5px;
     border-radius: 10px;
+    float: right;
 }
+
 .input-box{
     width: 60%;
     margin: 10px auto;
@@ -22,8 +24,9 @@
 
 .displayName{
     font-weight: bold;
-    // color: ;
+    color: lightskyblue;
 }
+
 span {
     margin-top: 5px;
 }
