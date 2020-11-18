@@ -5,9 +5,11 @@
     justify-content: center;
     margin: 10px auto;
     background-color: #253C78;
+    color: white;
   
 }
 
+// INFO CONTAINER 
 .container{
     display: flex;
     flex-flow: row wrap;
@@ -15,6 +17,7 @@
     margin: 75px auto;
   }
   
+  // ALL CONTENT INSIDE INFO CONTAINER 
   .content {
     width: calc(50% - 10px);
     /* height: 245px; */
