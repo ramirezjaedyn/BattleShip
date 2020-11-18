@@ -52,6 +52,10 @@ export class GameService {
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
+  resetGame() {
+    // NYI
+  }
+
   /**
    * Tries to join a user to an existing game via the gameId.  If successful, will add the user's info to the AFS game data
    * and routes them to the game page.
@@ -105,7 +109,11 @@ export class GameService {
     }
   }
 
-
+  /**
+   * Takes the coordinates of the shot, and determines if it is a valid shot. It then updates the board's values accordingly.
+   * @param col board column number
+   * @param row board row number
+   */
   guessShot(col: number, row: number) {
     // shooter's userId
     let shooter = this.gameInfo.activePlayer;
