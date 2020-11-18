@@ -41,16 +41,18 @@
 
 <!-- USER'S BOARD -->
 <div class="ship-info-container relative margin-auto" *ngIf="isUserBoard && shipsRemaining.length !== 0">
-    <h3 >Your Ships Remaining:</h3>
+   <div class="shipsFont">
+    <h3>Your Ships Remaining:</h3>
     <div *ngFor="let ship of shipsRemaining; let i = index">
         <!--   [style.fontWeight]="fontStyle" IF WE ADD BOLD TO THE CURRENT SHIP-->
         <!--  #fontStyle [style.fontWeight]="makeBold(fontStyle)" -->
         <!-- [ngStyle]="{ 'fontWeight: bold' }" -->
         <div [style.fontWeight]="checkIfFirst(i)"> {{ ship.name | titlecase}} ({{ship.length}})</div>
     </div>
+    </div>
     <!-- Horiz/Vert Ship Placement Options -->
     <div>
-        <mat-radio-group [(ngModel)]="isVertical" aria-label="User Ship Placement:">
+        <mat-radio-group class="shipsFont" [(ngModel)]="isVertical" aria-label="User Ship Placement:">
             <mat-radio-button class="btnStyle btn1" value="false">Horizontal</mat-radio-button>
             <br>
             <mat-radio-button class="btnStyle" value="true">Vertical</mat-radio-button>
