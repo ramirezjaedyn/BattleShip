@@ -86,6 +86,11 @@ export class GameService {
     });
   }
 
+  /**
+   * Submits board to the specific game document and updates the number of players locked in and will set gameReady
+   * to 'true' if both boards have been submitted
+   * @param board specific board object
+   */
   submitBoard(board) {
     // Create and set shallow copy of the boards
     let newBoards = { ...this.gameInfo.boards };
