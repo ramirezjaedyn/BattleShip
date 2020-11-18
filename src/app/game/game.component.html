@@ -3,17 +3,25 @@
 <div class="flex">
     <!-- Pass the player id that ISN'T the userId and isUser = false-->
     <div class="board-container row">
-        <h2>Opponent's Board</h2>
+        <h2 class="boardTitle">Opponent's Board</h2>
         <app-board [isUserBoard]="false"></app-board>
     </div>
 
     <!-- Pass the player id that IS the userId and isUser = true-->
     <div class="board-container row">
-        <h2>Your Board</h2>
+        <h2 class="boardTitle">Your Board</h2>
         <app-board [isUserBoard]="true" class="margin-auto relative"></app-board>
     </div>
+    <div class="chat-board">
+        <h2 class="chat-header">Chat</h2>
+        <app-chat></app-chat>
+    </div>
+
+
+    <div>
+        <h3>Status</h3>
+        <p>Game Ready: {{gameInfo?.gameReady}}</p>
+        <p *ngIf="gameInfo?.gameReady">Player's Turn: {{userId === gameInfo?.activePlayer ? 'Player' : 'Opponent'}}</p>
+    </div>
 </div>
-<div class="chat-board">
-    <h2>Chat</h2>
-    <app-chat></app-chat>
-</div>
+

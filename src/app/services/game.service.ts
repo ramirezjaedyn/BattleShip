@@ -36,7 +36,10 @@ export class GameService {
     boards: {}
     
   // Navigate them to the new game page
-  }).then(res =>  this.router.navigate([`/game/${this.gameId}`]))
+  }).then(res =>  {
+    this.socketService.joinGame(this.gameId);
+    this.router.navigate([`/game/${this.gameId}`])
+  })
 
   // Subscribe to the document
   this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val);
@@ -59,11 +62,13 @@ export class GameService {
         this.gameId = gameId;
         this.afs.collection('game').doc(`${this.gameId}`).update({
           inactivePlayer : this.userId,
-        }).then(val=>
+        }).then(val=>{
+          this.socketService.joinGame(this.gameId);
+          this.router.navigate([`/game/${this.gameId}`]);
           this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => {
             this.gameInfo = data
-            this.router.navigate([`/game/${this.gameId}`]);
           })
+        }
         )
       }
     }

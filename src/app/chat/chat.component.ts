@@ -15,21 +15,19 @@ import { Message } from '../interfaces/message.interface';
 export class ChatComponent implements OnInit {
   @ViewChild('output') private chatOutput: ElementRef;
   messages: Array<Message> = [];
-  messageText: string = '';
-  answer: string = '';
+  messageText = '';
   currentGame: string;
   player: string;
   currentPlayer: string;
+  censorProfanity = false;
   constructor(private gameservice: GameService, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) { }
 
   sendMessage(){
     if(this.messageText.length > 0 && this.messageText.length <= 280){
-      let msg: Message = {
-        displayName: this.currentPlayer,
-        body: this.messageText
-      }
-      this.messageText = '';
 
+      this.socketService.sendMessage(this.messageText);
+      this.messageText = '';
+     
     }
 
   }

@@ -1,10 +1,10 @@
 
-<mat-toolbar color="primary">
+<mat-toolbar class="toolBar">
   
-    <button mat-button routerLink="home">
-      <h1 class="txt-center container">Battleship</h1>
+    <button  class="title" mat-button routerLink="home">
+      <h1>Battleship</h1>
       
     </button>
     <span style="flex: 1 1 auto;"></span>
-    <button mat-button (click)="logout()" routerLink="home" *ngIf="(user | async)?.uid && currentLoc != '/login'">Logout</button>
+    <button class="title"  mat-button (click)="logout()" routerLink="home" *ngIf="(user | async) && currentLoc != '/login'">Logout</button>
 </mat-toolbar>
