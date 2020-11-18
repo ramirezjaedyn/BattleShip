@@ -16,7 +16,13 @@ export class GameComponent implements OnInit {
   gameInfo: any = null; // houses game data
 
   constructor(private afs: AngularFirestore, private gameService: GameService, private auth: AngularFireAuth, private actr: ActivatedRoute) {
-    this.afs.collection('game').doc(`${this.actr.snapshot.params.gameId}`).valueChanges().subscribe(val=> this.gameInfo = val ?  val: null);
+    this.afs.collection('game').doc(`${this.actr.snapshot.params.gameId}`).valueChanges().subscribe(val=> {
+      this.gameInfo = val ?  val: null;
+      // Open dialog box if game is over declaring the winner
+      if (this.gameInfo.gameOver){
+        this.gameService.openDialog() // look into passing winner's name into this function
+      }
+    });
     this.auth.user.subscribe(v=> this.userId = v ? v.uid : null);
    }
 

@@ -18,6 +18,7 @@ import { MaterialModule } from './materialModule';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from './nav/nav.component';
 import { CensorPipe } from './censor.pipe';
+import { EndGameComponent } from './end-game/end-game.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CensorPipe } from './censor.pipe';
     InstructionsComponent,
     HomeComponent,
     NavComponent,
-    CensorPipe
+    CensorPipe,
+    EndGameComponent
   ],
   imports: [
     BrowserModule,
