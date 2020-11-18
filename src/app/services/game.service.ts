@@ -53,7 +53,7 @@ export class GameService {
   }
 
   resetGame() {
-    // NYI
+    // NYI  Will be used to restart the game between 2 individuals
   }
 
   /**
@@ -169,6 +169,11 @@ export class GameService {
     console.log(`${winner} wins, ${loser} loses!`);
   }
 
+  /**
+   * Checks entire board object and sees if there are any untouched ship coordinates (1s) left.
+   * @param board Board object
+   * @returns boolean-- true if game is over
+   */
   checkIfGameOver(board: Board): boolean {
     // Iterate through the board's keys
     for (const row in board) {
