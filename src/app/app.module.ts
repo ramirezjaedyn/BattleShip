@@ -29,7 +29,7 @@ import { CensorPipe } from './censor.pipe';
     InstructionsComponent,
     HomeComponent,
     NavComponent,
-    CensorPipe
+    CensorPipe,
   ],
   imports: [
     BrowserModule,
