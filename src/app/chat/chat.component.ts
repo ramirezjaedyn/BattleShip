@@ -1,10 +1,8 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GameService } from '../services/game.service';
 import { SocketService } from '../services/socket.service';
-import { take } from 'rxjs/operators';
 import { Message } from '../interfaces/message.interface';
 
 @Component({

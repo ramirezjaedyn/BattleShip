@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './materialModule';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from './nav/nav.component';
+import { CensorPipe } from './censor.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NavComponent } from './nav/nav.component';
     GameComponent,
     InstructionsComponent,
     HomeComponent,
-    NavComponent
+    NavComponent,
+    CensorPipe
   ],
   imports: [
     BrowserModule,
