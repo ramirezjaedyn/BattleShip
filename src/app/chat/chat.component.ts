@@ -1,10 +1,8 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GameService } from '../services/game.service';
 import { SocketService } from '../services/socket.service';
-import { take } from 'rxjs/operators';
 import { Message } from '../interfaces/message.interface';
 
 @Component({
@@ -15,21 +13,19 @@ import { Message } from '../interfaces/message.interface';
 export class ChatComponent implements OnInit {
   @ViewChild('output') private chatOutput: ElementRef;
   messages: Array<Message> = [];
-  messageText: string = '';
-  displayName = '';
+  messageText = '';
   currentGame: string;
   player: string;
   currentPlayer: string;
+  censorProfanity = false;
   constructor(private gameservice: GameService, private auth: AngularFireAuth, private afs: AngularFirestore, private socketService: SocketService) { }
 
   sendMessage(){
     if(this.messageText.length > 0 && this.messageText.length <= 280){
-      let msg: Message = {
-        displayName: this.currentPlayer,
-        body: this.messageText
-      }
-      this.messageText = '';
 
+      this.socketService.sendMessage(this.messageText);
+      this.messageText = '';
+     
     }
 
   }
