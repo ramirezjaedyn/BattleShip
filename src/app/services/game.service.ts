@@ -49,7 +49,7 @@ export class GameService {
    * Deletes the AngularFireStore game information via the game's gameId
    */
   deleteGame() {
-
+    this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
 
