@@ -150,6 +150,8 @@ export class GameService {
           // Update firestore
           this.afs.collection('game').doc(`${this.gameId}`).update({ gameOver: true, winner: shooter });
           this.showWinner(shooter, victim);
+          // NEED TO PROMPT USERS TO PLAY AGAIN OR QUIT GAME THEN DELETE
+          // deleteGame()
         }
         // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({
