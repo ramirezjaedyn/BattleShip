@@ -52,26 +52,32 @@ export class GameService {
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
-
+  /**
+   * Tries to join a user to an existing game via the gameId.  If successful, will add the user's info to the AFS game data
+   * and routes them to the game page.
+   * @param gameId unique game code
+   */
   joinGame(gameId: string) {
     // Does that game exist??
     this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res: any) => {
       let gameData = res.payload.data();
+      // If the game exists...
       if (gameData) {
-
-        // YES - GTFO
-        // pop up an error
-        if (gameData.inactivePlayer) {  // THIS SHOULDN'T RUN WHEN THE SECOND PLAYER JOINS, BUT IT DOES DUE TO SNAPSHOTCHANGES()
+        // If there are already 2 players in the game, don't let them join
+        if (gameData.inactivePlayer) { 
           return;
-
-        } else {
-          // NO  - set inactive player, set this.gameId subscribe to that doc
+        } 
+        // If the game has a spot, let them join
+        else {
+          // Set the gameId to the game code and update AFS
           this.gameId = gameId;
           this.afs.collection('game').doc(`${this.gameId}`).update({
             inactivePlayer: this.userId,
           }).then(val =>
+            // Subscribe to changes and set the data to the gameInfo variable
             this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => {
               this.gameInfo = data
+              // Route to specific game page
               this.router.navigate([`/game/${this.gameId}`]);
             })
           )
