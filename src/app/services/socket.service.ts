@@ -17,7 +17,7 @@ export class SocketService {
       this.displayName = v ? v.displayName : null;
     });
 
-    //this.socket = io.connect();
+    this.socket = io.connect();
     this.socket.on('joinGame', (gameId) => {
     })
 
