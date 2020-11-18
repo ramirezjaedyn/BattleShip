@@ -1,5 +1,9 @@
 <!-- Inserts board component -->
-
+<div class="statusTitle">
+    <h3><b>Status</b></h3>
+    <p><b>Game Ready: {{gameInfo?.gameReady}}</b></p>
+    <p *ngIf="gameInfo?.gameReady">Player's Turn: {{userId === gameInfo?.activePlayer ? 'Player' : 'Opponent'}}</p>
+</div>
 <div class="flex">
     <!-- Pass the player id that ISN'T the userId and isUser = false-->
     <div class="board-container row">
@@ -18,11 +22,7 @@
     </div>
 
 
-    <div>
-        <h3>Status</h3>
-        <p>Game Ready: {{gameInfo?.gameReady}}</p>
-        <p *ngIf="gameInfo?.gameReady">Player's Turn: {{userId === gameInfo?.activePlayer ? 'Player' : 'Opponent'}}</p>
-    </div>
+    
 </div>
 
 

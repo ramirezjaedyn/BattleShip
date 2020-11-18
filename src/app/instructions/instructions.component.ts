@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { InstructionsDialogComponent } from '../instructions-dialog/instructions-dialog.component';
 
 @Component({
   selector: 'app-instructions',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InstructionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
+
+  openDialog(){
+  this.dialog.open(InstructionsDialogComponent); 
+}
 
   ngOnInit(): void {
   }
