@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Board } from '../interfaces/board.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { EndGameComponent } from '../end-game/end-game.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,8 @@ export class GameService {
   gameId: string;
   gameInfo: any = null
 
-  constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, private socketService: SocketService) {
+  constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, 
+    private socketService: SocketService, public dialog: MatDialog) {
     // set userId to value provided by Ang Fire Auth
     this.auth.user.subscribe(v => {
       this.userId = v ? v.uid : null;
@@ -189,5 +192,10 @@ export class GameService {
     // If there are no 1s in board, game over
     return true;
   }
+
+  openDialog() {
+    this.dialog.open(EndGameComponent);
+  }
 }
+
 
