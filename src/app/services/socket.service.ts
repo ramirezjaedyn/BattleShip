@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
+import { Message } from '../interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,7 @@ export class SocketService {
     });
 
     this.socket = io.connect();
-    this.socket.on('joinGame', (displayName, gameId) => {
-      displayName = displayName;
-      gameId = gameId;
+    this.socket.on('joinGame', (gameId) => {
     })
 
     this.socket.on('gameEnd', (gameId) => {
@@ -38,8 +37,8 @@ export class SocketService {
   }
 
   // Join game function
-  joinGame(displayName: string, gameId: string) {
-    this.socket.emit('joinGame', displayName, gameId);
+  joinGame(gameId: string) {
+    this.socket.emit('joinGame', gameId);
   }
 
   // Leave game function
@@ -47,8 +46,12 @@ export class SocketService {
     this.socket.emit('leaveGame', displayName, gameId);
   }
 
-  sendChat(msg: string){
-    this.socket.emit('newMessage', {msg: msg, displayName: this.displayName})
+  sendMessage(body: string){
+    let msg: Message = {
+      displayName: this.displayName,
+      body: body
+    }
+    this.socket.emit('newMessage', msg);
   }
 
   // Create game function to setup host socket
