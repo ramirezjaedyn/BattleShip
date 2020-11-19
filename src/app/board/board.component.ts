@@ -66,7 +66,7 @@ export class BoardComponent implements OnInit {
 
   // Will change styling class to show a user's board normally, but hide an enemies ships
   getClass(val: string){
-    val = !this.isUserBoard && (val.match(/-1$/g) ? '0' : val
+    val = !this.isUserBoard && val.match(/-1$/g) ? '0' : val
     return `cell-${val}`
   } 
   //if(val.match(/-1$/g))
