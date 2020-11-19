@@ -58,7 +58,9 @@ export class GameService {
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
-
+  /**
+   * Updates the current game to reset certain game doc attributes, so that the same 2 users may play another game.
+   */
   resetGame() {
     // Resets certain stats without changing some of the specific game data
     this.afs.collection('game').doc(`${this.gameId}`).update({
