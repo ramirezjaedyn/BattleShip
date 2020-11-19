@@ -1,6 +1,11 @@
 .statusTitle{
     text-align: center;
     margin-top: 15px; 
+    border: solid black 3px;
+    border-radius: 10px;
+    // width: calc(20% - 10px);
+    margin-left: 390px;
+    width: 200px; 
 }
 
 
@@ -9,9 +14,11 @@
     border-radius: 15px;
     padding: 15px;
     text-align: center;
-    margin: 10px;
+    margin-top: 25px;
+    margin-left: 40px;
     background-color: #495057;
-    color: black;
+    color: black; 
+    float: left;
 }
 
 .boardTitle{
@@ -19,8 +26,8 @@
 
 }
 .chat-board{
-    margin-left: 50px;
-}
+    margin-left: 65px;
+} 
 .chat-header{
     text-align: center;
 }
