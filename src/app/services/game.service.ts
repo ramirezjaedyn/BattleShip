@@ -220,7 +220,8 @@ export class GameService {
     console.log(hitsNeeded);
 
     hitsNeeded = lengths[ship]
-    if(sunk = false){
+    if(sunk){
+      let sunk = false;
       for(let row in board){
         for(let i = 0; i < board[row].length; i++){
           if(board[row][i] === `${ship}-3`){
