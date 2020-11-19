@@ -58,8 +58,17 @@ export class GameService {
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
+
   resetGame() {
-    // NYI  Will be used to restart the game between 2 individuals
+    // Resets certain stats without changing some of the specific game data
+    this.afs.collection('game').doc(`${this.gameId}`).update({
+      gameOver: false,
+      winner: null,
+      gameReady: false,
+      numLocked: 0,
+      boards: {}
+    })
+    console.log(this.gameInfo); // check the game's data to make sure everything reset properly
   }
 
   /**
