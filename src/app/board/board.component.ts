@@ -29,16 +29,16 @@ export class BoardComponent implements OnInit {
   boardStatus: Board = //isUserBoard ? below : null
     // 0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship
     { //  1  2  3  4  5  6  7  8  9  10
-      0: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      4: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      5: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      7: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      8: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      9: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      0: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      1: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      2: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      3: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      4: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      5: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      6: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      7: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      8: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+      9: ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
     }
   rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   boardValue: number; // number 0-4 that corresponds to board data(0: empty, 1: untouched ship, 2: miss, 3: hit, 4: sunk ship)
@@ -65,10 +65,11 @@ export class BoardComponent implements OnInit {
   ngOnInit(): void { }
 
   // Will change styling class to show a user's board normally, but hide an enemies ships
-  getClass(val: number){
-    val = !this.isUserBoard && val === 1 ? 0 : val
+  getClass(val: string){
+    val = !this.isUserBoard && val.match(/-1$/g) ? '0' : val
     return `cell-${val}`
-  }
+  } 
+  //if(val.match(/-1$/g))
 
   /**
    * Manipulates the board values, and will remove ships from shipsRemaining and/or submit board when all ships are placed
@@ -80,7 +81,7 @@ export class BoardComponent implements OnInit {
   
     })
     // if ship is placed on board
-    if(val === 1){ 
+    if(val === `${this.selectedShip.name}-1` ){ 
       this.coords = [];
       this.shipsRemaining.shift();
       // if there are ships then
@@ -102,15 +103,15 @@ export class BoardComponent implements OnInit {
    * @param set boolean, will be true when user clicks spot. Defaults as false.
    */
   shipPlacement(row, col, set) {
-    this.markCoords(0)
-    if (this.boardStatus[row][col] === 0 || this.boardStatus[row][col] === 5) {
+    this.markCoords('0')
+    if (this.boardStatus[row][col] === '0' || this.boardStatus[row][col] === `${this.selectedShip.name}-5` ) {
       this.coords = []
       // Horizontal ships
       if (this.isVertical == 'false') {
         // Iterate across the columns in the same row
         for (let i = col; i < col+this.selectedShip.length; i++) {
           // If it is a valid spot on the board, add it to the coords array
-          if(this.boardStatus[row][i] === 0 || this.boardStatus[row][i] === 5){
+          if(this.boardStatus[row][i] === '0' || this.boardStatus[row][i] === `${this.selectedShip.name}-5` ){
             this.coords.push([row, i])
           }
           // If not a valid spot on the board, reset the coord array and break
@@ -126,7 +127,7 @@ export class BoardComponent implements OnInit {
         // Iterate down the rows within the same column
         for (let i = parseInt(row); i < (parseInt(row) + this.selectedShip.length); i++) {
           // If the coord is on the board and not an untouched ship, add it to the coords array
-          if( i <= 9 && (this.boardStatus[i][col] === 0 || this.boardStatus[i][col] === 5)){
+          if( i <= 9 && (this.boardStatus[i][col] === '0' || this.boardStatus[i][col] === `${this.selectedShip.name}-5`)){
             this.coords.push([i, col])
           }
           // If not a valid spot, reset coord array and break
@@ -137,12 +138,13 @@ export class BoardComponent implements OnInit {
         }
       }
       // If there is a valid spot in the projected ship placement & the user clicks on the spot, let them place it
-      if (this.coords.length !== 0 && set) {
-        this.markCoords(1);
+      if (this.coords.length !== 0 && set) { // Why !==0 is not a string.?
+        // if(val.match(/-1$/g))
+        this.markCoords(`${this.selectedShip.name}-1`) // this.selectedShip.name
         // SHIPSPLACED ARRAY COULD BE ADDED HERE TO TRACK SPECIFIC SHIPS SUNK (MMP)
       }
       else {
-        this.markCoords(5);
+        this.markCoords(`${this.selectedShip.name}-5`);
       }
       
     }

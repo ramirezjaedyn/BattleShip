@@ -135,13 +135,13 @@ export class GameService {
       let boards = { ...this.gameInfo.boards };
       let victimBoardCoord = boards[victim][col][row];
       // Invalid location clicked
-      if (victimBoardCoord === 2 || victimBoardCoord === 3 || victimBoardCoord === 4) {
+      if (victimBoardCoord === '2' || victimBoardCoord.match(/-3$/g) || victimBoardCoord === '4' || victimBoardCoord === '5') {
         console.log("You've already clicked there in a past turn, try again");
       }
       // Clicked on an empty spot
-      if (victimBoardCoord === 0) {
+      if (victimBoardCoord === '0') {
         console.log("You missed!");
-        boards[victim][col][row] = 2; // changes value to "missed" 
+        boards[victim][col][row] = '2'; // changes value to "missed" 
         // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({
           activePlayer: victim, inactivePlayer: shooter,
@@ -149,10 +149,13 @@ export class GameService {
         });
       }
       // Clicked on an untouched spot
-      if (victimBoardCoord === 1) {
+      if (victimBoardCoord.match(/-1$/g)) {
         console.log("Enemy hit!");
-        boards[victim][col][row] = 3; // changes value to "hit" 
+        let ship = victimBoardCoord.split('-')[0];
+        boards[victim][col][row] = `${ship}-3`; // changes value to "hit" 
+        boards[victim] = this.checkSunkShip(ship, boards[victim]);
         // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
+        
         // Check if the game is over
         let gameOver = this.checkIfGameOver(boards[victim]);
         if (gameOver) {
@@ -190,9 +193,8 @@ export class GameService {
     // Iterate through the board's keys
     for (const row in board) {
       // If any of the key's values include a 1, the game isn't over
-      if (board[row].includes(1)) {
+      if (board[row].filter(val => val.match(/-1$/g)).length > 0) 
         return false;
-      }
     }
     // If there are no 1s in board, game over
     return true;
@@ -200,6 +202,46 @@ export class GameService {
 
   openDialog() {
     this.dialog.open(EndGameComponent);
+  }
+
+  checkSunkShip(ship,board){
+    const lengths = {destroyer: 2, submarine: 3, battleship: 4, carrier: 5};
+    let hitsNeeded = lengths [ship];
+    let sunk = false
+    for(let row in board){
+      for(let i = 0; i < board[row].length; i++){
+        if(board[row][i] === `${ship}-3`){
+          hitsNeeded--;
+
+          if(hitsNeeded == 0){
+            sunk = true;
+            break;
+          }
+        }
+      }
+      if(sunk) break;
+    }
+    console.log(sunk);
+    console.log(hitsNeeded);
+
+    hitsNeeded = lengths[ship]
+    if(sunk){
+      let sunk = false;
+      for(let row in board){
+        for(let i = 0; i < board[row].length; i++){
+          if(board[row][i] === `${ship}-3`){
+            hitsNeeded--;
+            board[row][i] = '4'
+            if(hitsNeeded == 0 ){
+              sunk = true;
+              break;
+            }
+          }
+        }
+        if(sunk) break;
+      }
+    }
+    return board;
   }
 }
 
