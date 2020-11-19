@@ -13,13 +13,7 @@ export class EndGameComponent implements OnInit {
 
   constructor(private gameService: GameService, private router: Router) { }
 
-  playAgain(){
-    this.gameService.resetGame();
-  }
-  
   quitGame(){
-    // Delete game from database
-    this.gameService.deleteGame()
     // Route to the home screen
     this.router.navigate(['/home']);
   }

@@ -58,20 +58,6 @@ export class GameService {
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
-  /**
-   * Updates the current game to reset certain game doc attributes, so that the same 2 users may play another game.
-   */
-  resetGame() {
-    // Resets certain stats without changing some of the specific game data
-    this.afs.collection('game').doc(`${this.gameId}`).update({
-      gameOver: false,
-      winner: null,
-      gameReady: false,
-      numLocked: 0,
-      boards: {}
-    })
-    console.log(this.gameInfo); // check the game's data to make sure everything reset properly
-  }
 
   /**
    * Tries to join a user to an existing game via the gameId.  If successful, will add the user's info to the AFS game data
