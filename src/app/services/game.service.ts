@@ -74,8 +74,11 @@ export class GameService {
       // If the game exists...
       if (gameData) {
         // If there are already 2 players in the game, don't let them join
-        if (gameData.inactivePlayer) { 
-          return;
+        if (gameData.inactivePlayer && gameData.inactivePlayer !== this.userId && gameData.activePlayer !== this.userId) { 
+          this.snackBar.open("The game room is full. Try again.", null, {
+            duration: 5000,
+          })
+        
         } 
         // If the game has a spot, let them join
         else {
@@ -91,6 +94,10 @@ export class GameService {
             })
           })
         }
+      } else {
+        this.snackBar.open("A game with this ID does not exist. Try again.", null, {
+          duration: 5000,
+        })
       }
     });
   }
