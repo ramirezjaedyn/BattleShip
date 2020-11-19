@@ -55,12 +55,10 @@ export class GameService {
    * Deletes the AngularFireStore game information via the game's gameId
    */
   deleteGame() {
+    this.gameInfo = null;
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
-  resetGame() {
-    // NYI  Will be used to restart the game between 2 individuals
-  }
 
   /**
    * Tries to join a user to an existing game via the gameId.  If successful, will add the user's info to the AFS game data
