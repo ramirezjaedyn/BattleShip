@@ -28,9 +28,13 @@
     border-radius: 10px;
     justify-content: center !important;
   }
-  
-  .txt-center {
-    text-align: center;
+
+  .mb-30 {
+    margin-bottom: 30px;
+  }
+
+  .pt-30 {
+    padding-top: 30px;
   }
   
   p {
@@ -39,10 +43,8 @@
   }
 
   form {
-    width: 208px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 15px;
+    width: 250px;
+    margin: auto;
   }
   
   #game-desc {

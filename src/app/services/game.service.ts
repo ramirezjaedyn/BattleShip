@@ -55,12 +55,10 @@ export class GameService {
    * Deletes the AngularFireStore game information via the game's gameId
    */
   deleteGame() {
+    this.gameInfo = null;
     this.afs.collection('game').doc(`${this.gameId}`).delete();
   }
 
-  resetGame() {
-    // NYI  Will be used to restart the game between 2 individuals
-  }
 
   /**
    * Tries to join a user to an existing game via the gameId.  If successful, will add the user's info to the AFS game data
@@ -74,8 +72,11 @@ export class GameService {
       // If the game exists...
       if (gameData) {
         // If there are already 2 players in the game, don't let them join
-        if (gameData.inactivePlayer) { 
-          return;
+        if (gameData.inactivePlayer && gameData.inactivePlayer !== this.userId && gameData.activePlayer !== this.userId) { 
+          this.snackBar.open("The game room is full. Try again.", null, {
+            duration: 5000,
+          })
+        
         } 
         // If the game has a spot, let them join
         else {
@@ -91,6 +92,10 @@ export class GameService {
             })
           })
         }
+      } else {
+        this.snackBar.open("A game with this ID does not exist. Try again.", null, {
+          duration: 5000,
+        })
       }
     });
   }

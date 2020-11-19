@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-end-game',
@@ -9,13 +11,11 @@ export class EndGameComponent implements OnInit {
 
   winner: string = "John"
 
-  constructor() { }
+  constructor(private gameService: GameService, private router: Router) { }
 
-  playAgain(){
-    // NYI
-  }
   quitGame(){
-    // NYI
+    // Route to the home screen
+    this.router.navigate(['/home']);
   }
 
   ngOnInit(): void {

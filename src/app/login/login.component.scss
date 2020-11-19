@@ -9,7 +9,7 @@
     border: solid black 3px;
     border-radius: 15px;
     padding: 1%;
-    background-color: #f7f7f8;
+    background-color: #f7f7f8
 }
   
   #google-button:hover {
@@ -21,6 +21,12 @@
 
 #google-button img {
   width: 208px;
+}
+ul {
+   list-style-type: none;
+   margin: 0;
+   padding: 30px 0 0;
+   
 }
 
 /*button {
