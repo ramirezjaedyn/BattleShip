@@ -157,7 +157,7 @@ export class GameService {
           console.log("GAME IS OVER");
           // Update firestore
           this.afs.collection('game').doc(`${this.gameId}`).update({ gameOver: true, winner: shooter });
-          this.showWinner(shooter, victim);
+          this.showWinner();
           // NEED TO PROMPT USERS TO PLAY AGAIN OR QUIT GAME THEN DELETE
           // deleteGame()
         }
@@ -174,9 +174,9 @@ export class GameService {
   }
 
 
-  showWinner(winner, loser) {
-    // since it is using the userId's it will be a bit unreadable... 
-    console.log(`${winner} wins, ${loser} loses!`);
+  showWinner() {
+    const dialogRef = this.dialog.open(EndGameComponent);
+    dialogRef.afterClosed().subscribe(v=> this.router.navigate(['/home']));
   }
 
   /**
@@ -193,10 +193,6 @@ export class GameService {
     }
     // If there are no 1s in board, game over
     return true;
-  }
-
-  openDialog() {
-    this.dialog.open(EndGameComponent);
   }
 
   checkSunkShip(ship,board){

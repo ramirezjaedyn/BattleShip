@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { GameService } from '../services/game.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-end-game',
@@ -11,11 +10,10 @@ export class EndGameComponent implements OnInit {
 
   winner: string = "John"
 
-  constructor(private gameService: GameService, private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<EndGameComponent>) { }
 
   quitGame(){
-    // Route to the home screen
-    this.router.navigate(['/home']);
+    this.dialogRef.close();
   }
 
   ngOnInit(): void {

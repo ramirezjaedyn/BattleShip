@@ -150,7 +150,6 @@ export class BoardComponent implements OnInit {
     }
   }
   guessShot(col, row) {
-    console.log("player guessed shot");
     this.gameService.guessShot(col, row);
   }
 

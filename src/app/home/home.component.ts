@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
 
 
   loggedIn(){
-    console.log(`user id from loggedIn(): ${this.userId}`)
     if(this.userId){
       this.gameService.createGame();
     } else {
