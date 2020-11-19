@@ -20,15 +20,16 @@
         it into the input field to join game.
       </p>
       <!-- Game Code Form-->
-      <form>
+      <form class="text-center" #gameForm="ngForm" role="form" name="form" (ngSubmit)="gameCode.valid && joinGame()">
         <mat-form-field>
           <mat-label>Enter Game Code</mat-label>
-          <input matInput type='text' name="room code" [(ngModel)]='gameId'>
+          <input required matInput type='text' name="gameCode" [(ngModel)]='gameId' #gameCode="ngModel">
+          <mat-error *ngIf="gameCode.invalid">
+            Must enter a game code to join
+          </mat-error>
         </mat-form-field>
+        <button type="submit" mat-raised-button class="buttonStyle">Join Game</button>
       </form>
-
-      <button mat-raised-button class="buttonStyle" (click)='joinGame()'>Join Game</button>
-
     </div>
   </div>
 </div>
