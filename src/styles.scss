@@ -19,6 +19,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .flex {
     display: flex;
+    justify-content: center;
 }
 
 .row {
@@ -31,6 +32,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .title{
-    color: white; 
+    color: white;
 }
 
