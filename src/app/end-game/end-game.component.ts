@@ -14,8 +14,9 @@ export class EndGameComponent implements OnInit {
   constructor(private gameService: GameService, private router: Router) { }
 
   playAgain(){
-    // NYI
+    this.gameService.resetGame();
   }
+  
   quitGame(){
     // Delete game from database
     this.gameService.deleteGame()
