@@ -1,14 +1,14 @@
 export interface Board{
-    0: Array<number>;
-    1: Array<number>;
-    2: Array<number>;
-    3: Array<number>;
-    4: Array<number>;
-    5: Array<number>;
-    6: Array<number>;
-    7: Array<number>;
-    8: Array<number>;
-    9: Array<number>;
+    0: Array<string>;
+    1: Array<string>;
+    2: Array<string>;
+    3: Array<string>;
+    4: Array<string>;
+    5: Array<string>;
+    6: Array<string>;
+    7: Array<string>;
+    8: Array<string>;
+    9: Array<string>;
     }
 
 export const startingBoard =     
