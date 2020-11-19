@@ -1,32 +1,34 @@
 <div class="container">
   <div class="content">
-    
-    <!--<app-instructions></app-instructions>-->
 
     <div id="game-desc">
-      <h2 class="txt-center"><b>Create A Game</b></h2>
+      <!-- Create Game -->
+      <h2 class="text-center"><b>Create Game</b></h2>
       <p>
         After clicking on create game you will be given a game code. Share your code with a friend so that they can
         join!
       </p>
+      <button (click)="loggedIn()" mat-raised-button class="buttonStyle mb-30">Create New Game</button>
 
-      <h2 class="txt-center"><b>To Join A Game</b></h2>
+      <mat-divider></mat-divider>
+
+      <!-- Join Game -->
+      <h2 class="text-center pt-30"><b>Join Game</b></h2>
       <p>
-        To join a game you must receive a game code from a player who has created a game, the game code is located in
-        the URL. Example /game/12345678 with 12345678 being your game code. Copy the game code and paste it into the
-        input field to join game.
+        To join a game you must receive a game code from a player who has already created a game. The game code is located in
+        the first player's URL endpoint (ex: /game/12345678 --> 12345678 = game code). Copy the game code and paste 
+        it into the input field to join game.
       </p>
+      <!-- Game Code Form-->
+      <form>
+        <mat-form-field>
+          <mat-label>Enter Game Code</mat-label>
+          <input matInput type='text' name="room code" [(ngModel)]='gameId'>
+        </mat-form-field>
+      </form>
+
+      <button mat-raised-button class="buttonStyle" (click)='joinGame()'>Join Game</button>
 
     </div>
-
-    <!-- CREATE GAME & JOIN GAME BUTTONS -->
-    <button (click)="loggedIn()" mat-raised-button class="buttonStyle">Create New Game</button>
-    <button mat-raised-button class="buttonStyle" (click)='joinGame()'>Join Game</button>
-    
-    <!-- GAME CODE INPUT FIELD-->
-    <form>
-      <mat-form-field>
-        <mat-label>Enter Game Code</mat-label>
-        <input matInput type='text' name="room code" [(ngModel)]='gameId'>
-      </mat-form-field>
-    </form>
+  </div>
+</div>
