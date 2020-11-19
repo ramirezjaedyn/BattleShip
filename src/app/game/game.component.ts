@@ -19,7 +19,7 @@ export class GameComponent implements OnInit {
     this.afs.collection('game').doc(`${this.actr.snapshot.params.gameId}`).valueChanges().subscribe(val=> {
       this.gameInfo = val ?  val: null;
       // Open dialog box if game is over declaring the winner
-      if (this.gameInfo.gameOver){
+      if (this.gameInfo && this.gameInfo.gameOver){
         this.gameService.openDialog() // look into passing winner's name into this function
       }
     });
