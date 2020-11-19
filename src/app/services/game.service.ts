@@ -148,7 +148,9 @@ export class GameService {
         console.log("Enemy hit!");
         let ship = victimBoardCoord.split('-')[0];
         boards[victim][col][row] = `${ship}-3`; // changes value to "hit" 
+        boards[victim] = this.checkSunkShip(ship, boards[victim]);
         // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
+        
         // Check if the game is over
         let gameOver = this.checkIfGameOver(boards[victim]);
         if (gameOver) {
@@ -218,7 +220,7 @@ export class GameService {
     console.log(hitsNeeded);
 
     hitsNeeded = lengths[ship]
-    if(sunk){
+    if(sunk = false){
       for(let row in board){
         for(let i = 0; i < board[row].length; i++){
           if(board[row][i] === `${ship}-3`){
