@@ -29,7 +29,7 @@ export class EndGameComponent implements OnInit {
     console.log(`WinnerId ${winnerId}`);
     console.log(`Loser ${this.gameService.gameInfo.inactivePlayer}`);
     console.log(`userId: ${this.userId}`);
-    if (winnerId === this.userId) {
+    if (winnerId === this.gameService.userId) {
       this.winner = "You"
     }
     else {

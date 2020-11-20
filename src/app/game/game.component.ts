@@ -16,12 +16,14 @@ export class GameComponent implements OnInit {
   // Check for who the logged in user is
   userId: string;
   gameInfo: any = null; // houses game data
+  showedWinner: boolean = false;
 
   constructor(private afs: AngularFirestore, private gameService: GameService, private auth: AngularFireAuth, 
     private actr: ActivatedRoute, public dialog: MatDialog, private router: Router) {
     this.afs.collection('game').doc(`${this.actr.snapshot.params.gameId}`).valueChanges().subscribe(val=> {
       this.gameInfo = val ?  val: null;
-      if (this.gameInfo.gameOver){
+      if (this.gameInfo && this.gameInfo.gameOver && !this.showedWinner){
+        this.showedWinner = true;
         this.showWinner();
       }
     });
