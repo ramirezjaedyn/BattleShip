@@ -26,10 +26,10 @@ td:hover {
     margin-top: 15px;
     margin-top: 15px;
     margin-top: 15px;
-    background-color: #CED4DA; 
+    background-color: #CED4DA;
 }
 
-.cell-0{
+.cell-0 {
     background-color: #6D98BA;
 }
 .cell-submarine-1, .cell-submarine-5,
@@ -39,31 +39,27 @@ td:hover {
 {
     background-color: gray;
 }
-.cell-2{
+.cell-2 {
     background-color: white;
 }
 .cell-submarine-3,
 .cell-destroyer-3,
 .cell-battleship-3,
-.cell-carrier-3{
+.cell-carrier-3 {
     background-color: orange;
 }
-.cell-4{
+.cell-4 {
     background-color: red;
 }
 
-.ng-container{
+.ng-container {
     background-color: #495057;
 }
 
-.btn1{
-    margin-top: 10px; ;
-}
-
 .btnStyle{
-    margin: 10px auto;
-}
-
-.shipsFont {
-    color: black; 
+  text-align: center;
+  height: 35px;
+  width: 100px;
+  padding-bottom: 14px;
+  color: black;
 }
