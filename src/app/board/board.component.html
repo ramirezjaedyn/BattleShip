@@ -52,11 +52,10 @@
     </div>
     <!-- Horiz/Vert Ship Placement Options -->
     <div>
-        <mat-radio-group class="shipsFont" [(ngModel)]="isVertical" aria-label="User Ship Placement:">
-            <mat-radio-button class="btnStyle btn1" value="false">Horizontal</mat-radio-button>
-            <br>
-            <mat-radio-button class="btnStyle" value="true">Vertical</mat-radio-button>
-        </mat-radio-group>
+      <mat-button-toggle-group class="shipsFont" [(ngModel)]="isVertical" aria-label="User Ship Placement:">
+        <mat-button-toggle class="btnStyle btn1" value="true">Vertical</mat-button-toggle>
+        <mat-button-toggle class="btnStyle" value="false">Horizontal</mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
     <app-instructions></app-instructions>
 </div>
