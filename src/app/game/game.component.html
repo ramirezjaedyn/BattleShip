@@ -3,6 +3,7 @@
     <h3><b>Status</b></h3>
     <p><b>Game Ready: {{gameInfo?.gameReady}}</b></p>
     <p *ngIf="gameInfo?.gameReady">Player's Turn: {{userId === gameInfo?.activePlayer ? 'Player' : 'Opponent'}}</p>
+    <app-instructions></app-instructions>
 </div>
 <div class="flex">
     <!-- Pass the player id that ISN'T the userId and isUser = false-->
