@@ -50,10 +50,10 @@
         <div [style.fontWeight]="checkIfFirst(i)"> {{ ship.name | titlecase}} ({{ship.length}})</div>
     </div>
     </div>
-    <!-- Horiz/Vert Ship Placement Options -->
+    <!-- Vert/Horz Ship Placement Options -->
     <div>
       <mat-button-toggle-group class="shipsFont" [(ngModel)]="isVertical" aria-label="User Ship Placement:">
-        <mat-button-toggle class="btnStyle btn1" value="true">Vertical</mat-button-toggle>
+        <mat-button-toggle class="btnStyle" value="true">Vertical</mat-button-toggle>
         <mat-button-toggle class="btnStyle" value="false">Horizontal</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
