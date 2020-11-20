@@ -17,9 +17,9 @@ export class BoardComponent implements OnInit {
   // Different ships that the user can place or destroy on the board
   shipsRemaining: Array<Ship> = [
     { name: "destroyer", length: 2 },
-    { name: "submarine", length: 3 },
-    { name: "battleship", length: 4 },
-    { name: "carrier", length: 5 },
+    // { name: "submarine", length: 3 },
+    // { name: "battleship", length: 4 },
+    // { name: "carrier", length: 5 },
   ];
 
   coords: Array<Array<any>> = []

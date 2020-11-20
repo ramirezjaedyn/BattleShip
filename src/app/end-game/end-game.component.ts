@@ -16,6 +16,7 @@ export class EndGameComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EndGameComponent>, private gameService: GameService, private auth: AngularFireAuth) { 
     this.auth.user.subscribe(v => {
       this.userId = v ? v.uid : null;
+      console.log(`userId: ${this.userId}`);
     });
   }
 
@@ -25,7 +26,10 @@ export class EndGameComponent implements OnInit {
 
   ngOnInit(): void {
     let winnerId = this.gameService.gameInfo.activePlayer;
-    if (winnerId = this.userId) {
+    console.log(`WinnerId ${winnerId}`);
+    console.log(`Loser ${this.gameService.gameInfo.inactivePlayer}`);
+    console.log(`userId: ${this.userId}`);
+    if (winnerId === this.userId) {
       this.winner = "You"
     }
     else {
