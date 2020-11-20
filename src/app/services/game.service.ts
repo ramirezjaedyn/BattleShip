@@ -69,14 +69,15 @@ export class GameService {
    */
   joinGame(gameId: string) {
     // Does that game exist??
-    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res: any) => {
-      let gameData = res.payload.data();
+    this.afs.collection('game').doc(gameId).snapshotChanges().subscribe((res: any) => {let gameData = res.payload.data();
       // If the game exists...
       if (gameData) {
         // If there are already 2 players in the game, don't let them join
-        if (gameData.inactivePlayer) { 
-          return;
-        } 
+        if (gameData.inactivePlayer && gameData.inactivePlayer !== this.userId && gameData.activePlayer !== this.userId) { 
+          	  this.snackBar.open("The game room is full. Try again.", null, {
+              duration: 5000,
+        })
+      }
         // If the game has a spot, let them join
         else {
           // Set the gameId to the game code and update AFS
@@ -89,11 +90,16 @@ export class GameService {
             this.afs.collection('game').doc(`${this.gameId}`).valueChanges().subscribe(data => {
               this.gameInfo = data;
             })
-          })
-        }
+        })
       }
-    });
-  }
+    }
+        else {
+        this.snackBar.open("A game with this ID does not exist. Try again.", null, {
+          duration: 5000,
+        })
+      }
+    })
+}
 
   /**
    * Submits board to the specific game document and updates the number of players locked in and will set gameReady
