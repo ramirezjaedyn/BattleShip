@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Board } from '../interfaces/board.interface';
-import { MatDialog } from '@angular/material/dialog';
-import { EndGameComponent } from '../end-game/end-game.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +16,7 @@ export class GameService {
   gameInfo: any = null
 
   constructor(private router: Router, private auth: AngularFireAuth, private snackBar: MatSnackBar, private afs: AngularFirestore, 
-    private socketService: SocketService, public dialog: MatDialog) {
+    private socketService: SocketService) {
     // set userId to value provided by Ang Fire Auth
     this.auth.user.subscribe(v => {
       this.userId = v ? v.uid : null;
@@ -149,7 +147,6 @@ export class GameService {
         let ship = victimBoardCoord.split('-')[0];
         boards[victim][col][row] = `${ship}-3`; // changes value to "hit" 
         boards[victim] = this.checkSunkShip(ship, boards[victim]);
-        // RUN FUNC TO CHECK IF SHIP HAS SUNK (MMP)
         
         // Check if the game is over
         let gameOver = this.checkIfGameOver(boards[victim]);
@@ -157,9 +154,6 @@ export class GameService {
           console.log("GAME IS OVER");
           // Update firestore
           this.afs.collection('game').doc(`${this.gameId}`).update({ gameOver: true, winner: shooter });
-          this.showWinner();
-          // NEED TO PROMPT USERS TO PLAY AGAIN OR QUIT GAME THEN DELETE
-          // deleteGame()
         }
         // Swap player statuses and update board
         this.afs.collection('game').doc(`${this.gameId}`).update({
@@ -173,11 +167,6 @@ export class GameService {
     }
   }
 
-
-  showWinner() {
-    const dialogRef = this.dialog.open(EndGameComponent);
-    dialogRef.afterClosed().subscribe(v=> this.router.navigate(['/home']));
-  }
 
   /**
    * Checks entire board object and sees if there are any untouched ship coordinates (1s) left.
