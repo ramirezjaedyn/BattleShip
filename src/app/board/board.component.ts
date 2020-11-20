@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
     { name: "destroyer", length: 2 },
     { name: "submarine", length: 3 },
     { name: "battleship", length: 4 },
-    { name: "carrier", length: 5 },
+    { name: "carrier", length: 5 }
   ];
 
   coords: Array<Array<any>> = []
