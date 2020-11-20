@@ -26,9 +26,6 @@ export class EndGameComponent implements OnInit {
 
   ngOnInit(): void {
     let winnerId = this.gameService.gameInfo.activePlayer;
-    console.log(`WinnerId ${winnerId}`);
-    console.log(`Loser ${this.gameService.gameInfo.inactivePlayer}`);
-    console.log(`userId: ${this.userId}`);
     if (winnerId === this.gameService.userId) {
       this.winner = "You"
     }
