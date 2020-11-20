@@ -1,7 +1,7 @@
 <!-- Inserts board component -->
 <div class="statusTitle">
     <h3><b>Status</b></h3>
-    <p><b>Game Ready: {{gameInfo?.gameReady}}</b></p>
+    <p><b>Game Ready: </b><span class="dot" [style.backgroundColor]="gameInfo?.gameReady ? 'green': 'red'"></span></p>
     <p *ngIf="gameInfo?.gameReady">Player's Turn: {{userId === gameInfo?.activePlayer ? 'Player' : 'Opponent'}}</p>
     <app-instructions></app-instructions>
 </div>
