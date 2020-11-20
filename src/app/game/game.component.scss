@@ -1,11 +1,11 @@
 .statusTitle{
+    margin: auto;
     text-align: center;
     margin-top: 15px; 
     border: solid black 3px;
+    background-color: #f7f7f8;
     border-radius: 10px;
-    // width: calc(20% - 10px);
-    margin-left: 390px;
-    width: 200px; 
+    width: 350px; 
     height: 150px;
 }
 
@@ -27,7 +27,12 @@
 
 }
 .chat-board{
-    margin-left: 65px;
+    margin-top: 25px;
+    margin-left: 40px;
+    background-color: #f7f7f8;
+    padding: 15px;
+    border: 3px solid black;
+    border-radius: 15px;
 } 
 .chat-header{
     text-align: center;
