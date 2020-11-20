@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { NavComponent } from './nav/nav.component';
 import { CensorPipe } from './censor.pipe';
 import { EndGameComponent } from './end-game/end-game.component';
+import { InstructionsDialogComponent } from './instructions-dialog/instructions-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { EndGameComponent } from './end-game/end-game.component';
     HomeComponent,
     NavComponent,
     CensorPipe,
-    EndGameComponent
+    EndGameComponent, 
+    InstructionsDialogComponent
   ],
   imports: [
     BrowserModule,
